@@ -10,4 +10,6 @@ npm install @react-navigation/drawer
 
 npm install @react-navigation/stack
 
+npm install babel-plugin-inline-import
+
 npm i @expo/vector-icons
