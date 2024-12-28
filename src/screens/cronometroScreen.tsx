@@ -10,6 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
 import { eq } from "drizzle-orm";
+import { useTheme } from "@/customs";
 
 export default function CronometroScreen() {
     const [days,      setDays     ] = useState<number>(0);
@@ -149,6 +150,7 @@ export default function CronometroScreen() {
           findBy();
     },[route.params?.ID]))
 
+    const theme = useTheme();
     return(
         <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
             <CronometroCard 
@@ -161,15 +163,15 @@ export default function CronometroScreen() {
                 onPause={()=> handlerPause()} 
                 onReset={()=> resetCronometro()}
             />
-            <View style={css.container}>
+            <View style={[css.container, {backgroundColor: theme.shap}]}>
               <TextInput value={description} onChangeText={setDescription} 
                 placeholder="Anotações gerais" 
-                placeholderTextColor={'#fff'}
-                style={css.description} 
+                placeholderTextColor={theme.font}
+                style={[css.description, {color: theme.font}]} 
                 multiline/>
 
               <TouchableOpacity onPress={()=>  onSave()}>
-                  <MaterialIcons name="send" color={'#fff'} size={22} />
+                  <MaterialIcons name="send" color={theme.font} size={22} />
               </TouchableOpacity>
             </View>
             
@@ -180,6 +182,8 @@ export default function CronometroScreen() {
 const css = StyleSheet.create({
   container: {
     backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
     position: "absolute",
     flexDirection: "row",
     padding: 14,
@@ -187,7 +191,6 @@ const css = StyleSheet.create({
   },
 
   description:{
-    color: '#fff',
     flex: 1
   }
 })

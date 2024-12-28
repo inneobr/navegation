@@ -14,17 +14,15 @@ const DATABASE_NAME = "database.db";
 const expoDB = openDatabaseSync(DATABASE_NAME);
 const db = drizzle(expoDB);
 
-export default function App() {
-  NavigationBar.setBackgroundColorAsync('#18181B');
+export default function App() { 
+  const theme = useTheme();
+  NavigationBar.setBackgroundColorAsync(theme.base);
 
   const { error } = useMigrations(db, migrations);
   if(error){ 
    Alert.alert("Atenção!", `Leitura tabelas: ${error.message}`);
    return error;
-  }
-
-  const theme = useTheme();
-
+  }  
   return (
     <SQLiteProvider databaseName={ DATABASE_NAME }>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content' }  backgroundColor={theme.base}/>

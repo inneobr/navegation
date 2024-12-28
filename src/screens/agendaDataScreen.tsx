@@ -58,7 +58,7 @@ export default function AgendaDataScreen() {
 
     const containerAnimeted = useAnimatedStyle(() => {
         return {  
-            backgroundColor: eventos.length === 0 ? theme.base : "transparent",
+            backgroundColor: eventos.length === 0 ? theme.card : "transparent",
             borderRadius: 8,
         };
     });

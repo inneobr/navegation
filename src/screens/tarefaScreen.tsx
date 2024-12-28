@@ -99,7 +99,7 @@ export default function TarefaScreen() {
   const theme = useTheme()
   return (
     <React.Fragment>
-      <View style={[css.container, {width: width - 28, backgroundColor: theme.base}]}>
+      <View style={[css.container, {width: width - 28, backgroundColor: theme.card}]}>
         <View style={css.section}>
           <Text style={[css.title, {color: theme.font}]}>{route.params?.ID ? 'Editar a tarefa' : 'Adicionar nova tarefa'}</Text>
           
@@ -149,7 +149,3 @@ const css = StyleSheet.create({
     fontSize: 16,    
   },
 })
-
-/*
-backdropComponent={()=> <BackDrop openHeight={} closeHeight={} close={close}/>}
-*/

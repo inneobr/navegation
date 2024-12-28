@@ -38,7 +38,7 @@ const CalendarCard = ({tarefas, onChange}: Props) => {
 
     
     return (             
-            <View style={[css.container, {width: width - 28, backgroundColor: theme.base}]}> 
+            <View style={[css.container, {width: width - 28, backgroundColor: theme.card}]}> 
                 <View style={[css.line, {backgroundColor: theme.font}]} />
                 <Calendar
                     markedDates={markedDates}
@@ -48,7 +48,7 @@ const CalendarCard = ({tarefas, onChange}: Props) => {
                         textDayStyle: { color: theme.font },
                         selectedDayTextColor: theme.font,
                         textDisabledColor:  theme.tint,
-                        calendarBackground: theme.base, 
+                        calendarBackground: theme.card, 
                         monthTextColor: theme.font,
                         arrowColor: theme.font,               
                         todayTextColor: theme.open,

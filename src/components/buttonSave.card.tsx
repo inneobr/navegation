@@ -11,7 +11,7 @@ const ButtonSaveCard = ({icon, title, ...rest}: Props) => {
     const theme = useTheme();
     return (
         <TouchableOpacity {...rest}>
-            <View style={[styles.container, {backgroundColor: theme.card}]}>  
+            <View style={[styles.container, {backgroundColor: theme.base}]}>  
                 <Ionicons name={icon} color={theme.font}  size={16} />            
                 <Text style={[styles.text, {color: theme.font}]}>{title}</Text>
             </View>

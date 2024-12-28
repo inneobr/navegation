@@ -34,15 +34,21 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
       .direction(Directions.LEFT)
       .onStart(() => {position.value = withTiming(-width, { duration: 500 })})
       .onEnd(() => {
-        handlerDelete(item);
+        onUpdate(item);
+        setTimeout(()=> {
+            position.value = withTiming(0, { duration: 500 })
+        }, 2000);
       })
     .runOnJS(true);   
   
     const directionLeft = (item: number) => Gesture.Fling()
       .direction(Directions.RIGHT)
       .onStart(() => { position.value = withTiming(width, { duration: 500 })})
-      .onEnd(() => {        
-        onUpdate(item);
+      .onEnd(() => {   
+        onPress(id);
+        setTimeout(()=> {
+            position.value = withTiming(0, { duration: 500 })
+        }, 2000);
       })
     .runOnJS(true);
 
@@ -53,13 +59,13 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
         })
         .onEnd((e, success) => {
         if (success) {
-            onPress(id)
+            handlerDelete(item);            
         }
         })
     .runOnJS(true);
 
     function onPress(item: number){
-        navigation.navigate('TarefaViewScreen', { tarefaID: item });        
+        navigation.navigate('TarefaViewScreen', { ID: item });        
     }
      
     const animatedStyle = useAnimatedStyle(() => ({
@@ -87,10 +93,7 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
     }
 
     function onUpdate(item: number){
-        navigation.navigate('AdicionarTarefa', {ID: item, CAT_ID: categoria?.id});
-        setTimeout(()=> {
-            position.value = withTiming(0, { duration: 500 })
-        }, 2000);        
+        navigation.navigate('AdicionarTarefa', {ID: item, CAT_ID: categoria?.id});               
     }
     
     const categoriaDB = drizzle(db, { schema: tabelaScheme }); 
@@ -113,7 +116,7 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
     const theme = useTheme()
     return (
         <GestureDetector gesture={Gesture.Exclusive(pressGesture(id), directionRight(id), directionLeft(id))} key={id}>           
-            <Animated.View style={[css.container, {backgroundColor: theme.base, paddingHorizontal: 12 }, animatedStyle]}> 
+            <Animated.View style={[css.container, {backgroundColor: theme.card, paddingHorizontal: 12 }, animatedStyle]}> 
                 <Animated.View style={{justifyContent: "space-between", flexDirection: "row"}}>
                     <Text style={[css.title, {color: theme.font, elevation: 8}]}>{title}</Text>
                     <Animated.View style={[css.categoria, {backgroundColor: categoria?.color}]}/>     

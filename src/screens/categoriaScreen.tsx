@@ -85,7 +85,7 @@ export default function CadastrarCategoria() {
 
   const theme = useTheme();
   return (
-    <View style={[css.container, {backgroundColor: theme.base }]}>
+    <View style={[css.container, {backgroundColor: theme.card }]}>
       <View style={css.section}>
         <Text style={[css.title, {color: theme.font}]}>{route.params.CAT_ID? 'Editar lista' : 'Adicionar lista'}</Text> 
         

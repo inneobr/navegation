@@ -9,7 +9,7 @@ type Props = TouchableOpacityProps & {
 const ButtonPlus = ({ icon, ...rest}: Props) => {
     const theme = useTheme();
     return (
-        <TouchableOpacity style={[styles.container, {backgroundColor: theme.card}]} {...rest}>
+        <TouchableOpacity style={[styles.container, {backgroundColor: theme.base}]} {...rest}>
             <MaterialIcons name={icon} size={24} color={theme.font}/>
         </TouchableOpacity>
     )
