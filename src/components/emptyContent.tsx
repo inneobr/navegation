@@ -1,3 +1,4 @@
+import { useTheme } from "@/customs";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 type Props = {
@@ -7,11 +8,12 @@ type Props = {
 
 export function EmptyContent({ title, message}: Props) { 
     const imageProps = require('@/assets/img/ferias.png');
+    const theme = useTheme();
     return (
         <View style={css.container}>
             <Image source={imageProps} style={css.imageProps}/>
-            <Text style={[css.title, {color: '#FFF'}]}>{title}</Text>
-            <Text style={[css.description, {color: '#FFF'}]}>{message}</Text>
+            <Text style={[css.title, {color: theme.font}]}>{title}</Text>
+            <Text style={[css.description, {color: theme.tint}]}>{message}</Text>
         </View>
     )
 }

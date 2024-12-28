@@ -1,15 +1,17 @@
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import { StyleSheet, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useTheme } from "@/customs";
 
 const HeaderCard = () => { 
+    const theme = useTheme();
     return (
-        <View style={[styles.container, {backgroundColor: '#18181B' }]}>
+        <View style={[styles.container, {backgroundColor: theme.base }]}>
             <View style={styles.titleContainer}>
-                <Text style={[styles.title, {color: '#FFF'}]}>Planner</Text>
-                <MaterialIcons name="arrow-right" size={22} color={'#FFF'}/> 
+                <Text style={[styles.title, {color: theme.font}]}>Planner</Text>
+                <MaterialIcons name="arrow-right" size={22} color={theme.font}/> 
             </View>           
-            <DrawerToggleButton tintColor={'#FFF'}/>
+            <DrawerToggleButton tintColor={theme.font}/>
         </View>
     )
 }

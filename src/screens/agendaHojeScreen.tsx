@@ -43,7 +43,7 @@ export default function AgendaHojeScreenScreen() {
   }
 
   function handlerCadastrarTarefa(){
-    navigation.navigate('AdicionarTarefa', {tarefaID: null, categoriaID: null});    
+    navigation.navigate('AdicionarTarefa', {ID: null, CAT_ID: null});    
   }
         
   useFocusEffect(useCallback(() => {

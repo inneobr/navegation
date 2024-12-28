@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, TouchableWithoutFeedback, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { themeProps } from "@/utils/responsive";
+import { useTheme } from "@/customs";
 
 type Props = TouchableOpacityProps & {
     icon: keyof typeof Ionicons.glyphMap;
@@ -8,11 +8,12 @@ type Props = TouchableOpacityProps & {
 };
 
 const ButtonSaveCard = ({icon, title, ...rest}: Props) => {
+    const theme = useTheme();
     return (
         <TouchableOpacity {...rest}>
-            <View style={[styles.container, {backgroundColor: '#27272A'}]}>  
-                <Ionicons name={icon} color={'#FFF'}  size={16} />            
-                <Text style={[styles.text, {color: '#FFF'}]}>{title}</Text>
+            <View style={[styles.container, {backgroundColor: theme.card}]}>  
+                <Ionicons name={icon} color={theme.font}  size={16} />            
+                <Text style={[styles.text, {color: theme.font}]}>{title}</Text>
             </View>
         </TouchableOpacity>
     )

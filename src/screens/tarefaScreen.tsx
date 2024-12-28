@@ -15,6 +15,7 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
 import { eq } from "drizzle-orm";
 import moment from "moment";
+import { useTheme } from "@/customs";
 
 export default function TarefaScreen() {   
   const [title,       setTitle       ] = useState<string | any>('');
@@ -30,23 +31,16 @@ export default function TarefaScreen() {
 
   const usql = useSQLiteContext();
   const execute = drizzle(usql, { schema: tabelaScheme });
-
-  function handlerSave(){
-    if(route.params.tarefaID){
-      onUpdate()
-    }else {
-      onSave()
-    }
-  }
-
+ 
   async function onSave() {
+    if(route.params.ID) return onUpdate()
     if(!title ) {  return Alert.alert("Atenção!", "Nome é obrigatorio.")}  
     if(data < moment().format('YYYY-MM-DD')){
         return Alert.alert("Atenção!", "Não é possivel cadastrar tarefas no passado") 
     }     
     try {             
       await execute.insert(tabelaScheme.tarefa)
-        .values({title, description, prioridade, data, hora, categoria: route.params?.categoriaID });  
+        .values({title, description, prioridade, data, hora, categoria_id: route.params?.CAT_ID });  
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +53,7 @@ export default function TarefaScreen() {
     }
     try {  
         await execute.update(tabelaScheme.tarefa).set({title, description, data})
-          .where(eq(tabelaScheme.tarefa.id, Number(route.params.tarefaID)));                    
+          .where(eq(tabelaScheme.tarefa.id, Number(route.params.ID)));                    
     } catch (error) {
         console.log(error);
     }
@@ -75,7 +69,7 @@ export default function TarefaScreen() {
   async function findByID() {
     try {
         const response = await execute.query.tarefa.findFirst({
-            where: ((id, { eq }) => eq(tabelaScheme.tarefa.id, Number(route.params?.tarefaID)))
+            where: ((id, { eq }) => eq(tabelaScheme.tarefa.id, Number(route.params?.ID)))
         });           
         setTitle(response?.title);
         setDescription(response?.description);
@@ -97,27 +91,28 @@ export default function TarefaScreen() {
   }
  
   useFocusEffect(useCallback(() => {
-    if(route.params?.tarefaID){
+    if(route.params?.ID){
       findByID();
     }
   },[route.params]));    
 
+  const theme = useTheme()
   return (
     <React.Fragment>
-      <View style={[css.container, {width: width - 28, backgroundColor: '#18181B'}]}>
+      <View style={[css.container, {width: width - 28, backgroundColor: theme.base}]}>
         <View style={css.section}>
-          <Text style={[css.title, {color: '#FFF'}]}>{route.params?.tarefaID ? 'Editar a tarefa' : 'Adicionar nova tarefa'}</Text>
+          <Text style={[css.title, {color: theme.font}]}>{route.params?.ID ? 'Editar a tarefa' : 'Adicionar nova tarefa'}</Text>
           
           <ButtonIconCard icon={'calendar'} title={moment(data).format('DD-MM-YYYY')} onPress={()=> handlerInfo()}/>
 
           <TouchableOpacity onPress={() =>  tarefaClear()}>
-            <MaterialCommunityIcons name="close-box" color={'#FFF'} size={22}/>            
+            <MaterialCommunityIcons name="close-box" color={theme.font} size={22}/>            
           </TouchableOpacity>
         </View> 
 
         <InputCard placeholder={"Nome"} value={title} onChangeText={setTitle} />
         <InputCard placeholder={"Descrição"} value={description} onChangeText={setDescription} multiline />      
-        <ButtonSaveCard icon={'save'} title='Salvar' onPress={() => handlerSave()}/>  
+        <ButtonSaveCard icon={'save'} title='Salvar' onPress={() => onSave()}/>  
       </View> 
       <BotonSheetCard  onChange={setData}/>
       </React.Fragment>

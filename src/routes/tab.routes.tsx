@@ -4,22 +4,24 @@ import AgendaDataScreen from "../screens/agendaDataScreen";
 
 import SettingsScreen from "../screens/settingScreen";
 import { Ionicons,  } from "@expo/vector-icons";
+import { useTheme } from "@/customs";
 
 export default function TabRouter(){
     const Tab = createBottomTabNavigator();
+    const theme = useTheme();
     return (
         <Tab.Navigator 
             screenOptions={{ 
             headerShown: false,
-            tabBarActiveTintColor:   '#FFFFFF',
-            tabBarInactiveTintColor: '#F0F0F0',
+            tabBarActiveTintColor:   theme.open,
+            tabBarInactiveTintColor: theme.tint,
             sceneStyle: {  //body do app
-                backgroundColor: '#27272A',
+                backgroundColor: theme.body,
                 padding: 14 
             },
             tabBarStyle: {  //menu inferios           
-                borderColor:     '#18181B',         
-                backgroundColor: '#18181B',
+                borderColor:     theme.card,         
+                backgroundColor: theme.base,
             }}}> 
 
             <Tab.Screen name="AgendaDataScreen" component={AgendaDataScreen} 

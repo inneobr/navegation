@@ -52,7 +52,7 @@ export default function CategoriaListScreen(){
                     <EmptyContent title={"Ainda não temos listas."} message={"Cadastre listas e organize suas tarefas."}/>
                 )}
             />
-            <ButtonPlus icon='add' onPress={()=> navigation.navigate("CategoriaScreen", { categoriaID: 0})}/>
+            <ButtonPlus icon='add' onPress={()=> navigation.navigate("CategoriaScreen", { CAT_ID: 0})}/>
         </View>    
     );
 }

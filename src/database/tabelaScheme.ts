@@ -13,21 +13,29 @@ export const tarefa = sqliteTable("tarefa", {
     prioridade:   text("prioridade"),
     data:         text("data"),
     hora:         text("hora"),
-    categoria:    integer('categoria').references(() => categoria.id, {onDelete: 'cascade'})
+    categoria_id: integer('categoria_id').references(() => categoria.id, {onDelete: 'cascade'})
 });
 
 export const imagen = sqliteTable("imagens", {
-    id:       integer("id").primaryKey(), 
-    title:    text("title").notNull(),
-    base64:   text("base64").notNull(),
-    tarefa:   integer('tarefa').references(() => tarefa.id, {onDelete: 'cascade'}).notNull(),
+    id:        integer("id").primaryKey(), 
+    title:     text("title").notNull(),
+    base64:    text("base64").notNull(),
+    tarefa_id: integer('tarefa_id').references(() => tarefa.id, {onDelete: 'cascade'}).notNull(),
 }); 
 
 export const cronometro = sqliteTable("cronometro", {
+    id:          integer("id").primaryKey(), 
+    days:        integer("days"),
+    hours:       integer("hours"),
+    minutes:     integer("minutes"),
+    seconds:     integer("seconds"),
+    description: text("description"),
+    tarefa_id:   integer('tarefa_id'),
+}); 
+
+export const setting = sqliteTable("setting", {
     id:       integer("id").primaryKey(), 
-    days:     integer("days"),
-    hours:    integer("hours"),
-    minutes:  integer("minutes"),
-    seconds:  integer("seconds"),
-    tarefa:   integer('tarefa').references(() => tarefa.id, {onDelete: 'cascade'}),
+    title:    text("title").notNull(),
+    color:    text("color").notNull(),
+    checked:  text("checked").notNull(),
 }); 

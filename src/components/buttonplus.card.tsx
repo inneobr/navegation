@@ -1,15 +1,16 @@
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { themeProps } from "@/utils/responsive";
+import { useTheme } from "@/customs";
 
 type Props = TouchableOpacityProps & {
     icon: keyof typeof MaterialIcons.glyphMap,
 }
 
 const ButtonPlus = ({ icon, ...rest}: Props) => {
+    const theme = useTheme();
     return (
-        <TouchableOpacity style={[styles.container, {backgroundColor: '#F0F0F0'}]} {...rest}>
-            <MaterialIcons name={icon} size={24} color={'#18181B'}/>
+        <TouchableOpacity style={[styles.container, {backgroundColor: theme.card}]} {...rest}>
+            <MaterialIcons name={icon} size={24} color={theme.font}/>
         </TouchableOpacity>
     )
 }

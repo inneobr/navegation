@@ -1,22 +1,24 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { colors } from "@/utils/data/colors";
+import { useTheme } from "@/customs";
 
 type Props = {
     filter: string;
     onChange: (color: string ) => void;
 }
 
-const PickColorCard = ({filter, onChange, ...rest}: Props) => {   
+const PickColorCard = ({filter, onChange, ...rest}: Props) => { 
+    const theme = useTheme();  
     return (
-        <View style={css.container}>
+        <View style={[css.container, {borderColor: theme.shap}]}>
             {
                 colors && colors.map((item, index) => {
                     let isActive = filter === item;
                     let  borderWidth = isActive? 2 : 0
                     return (
                         <Pressable onPress={() => onChange(item)} key={item}>
-                            <View style={[css.section, {borderWidth}]}>
-                                <View style={[css.color, {backgroundColor: item}]}/>
+                            <View style={[css.section, {borderWidth, borderColor: theme.font}]}>
+                                <View style={[css.color, {backgroundColor: item, borderColor: theme.font}]}/>
                             </View>
                         </Pressable>
                     )
@@ -31,14 +33,16 @@ const css =StyleSheet.create({
     container: {
         justifyContent: "center",
         flexDirection: "row",
+        borderRadius: 15,
         flexWrap: "wrap",
+        borderWidth: 4,
+        padding: 4,
         gap: 10,
     },
 
     section:{
         borderCurve: "continuous",
         justifyContent: "center",
-        borderColor: "#F06543",
         alignItems: "center",
         borderRadius: 100,   
         height: 35,   
@@ -48,7 +52,6 @@ const css =StyleSheet.create({
 
     color: {
         borderCurve: "continuous",
-        borderColor: "#c0c0c0",
         paddingHorizontal: 14,
         borderRadius: 100,
         borderWidth: 1,

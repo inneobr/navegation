@@ -4,25 +4,28 @@ import { Ionicons } from "@expo/vector-icons";
 
 import AgendaCategoriaScreen from "@/screens/agendaCategoriaScreen";
 import AgendaHojeScreenScreen from "@/screens/agendaHojeScreen";
+import CronometroScreen from "@/screens/cronometroScreen";
+import TarefaViewScreen from "@/screens/tarefaViewScreen";
 import CategoriaScreen from "@/screens/categoriaScreen";
 import TarefaScreen from "@/screens/tarefaScreen";
 import TabRouter from "./tab.routes";
-import { useTheme } from "@/utils/responsive";
+import { useTheme } from "@/customs";
 
 const Drawer = createDrawerNavigator();
 export default function DrawerRoutes(){
+    const theme = useTheme();
     return (
         <Drawer.Navigator  drawerContent={DrawerContent} screenOptions={{ 
             headerShown: false, 
-            drawerActiveTintColor:         '#FFFFFF',
-            drawerInactiveTintColor:       '#F0F0F0',
+            drawerActiveTintColor:         theme.open,
+            drawerInactiveTintColor:       theme.tint,
             drawerActiveBackgroundColor:   'transparent',
             drawerInactiveBackgroundColor: 'transparent',            
             sceneStyle: {                
-                backgroundColor: '#27272A', /** cores do body quando usa drawer **/
+                backgroundColor: theme.body, /** cores do body quando usa drawer **/
             }, 
             drawerStyle: {  
-                backgroundColor: '#18181B', 
+                backgroundColor: theme.card, 
                 marginBottom: 14, 
                 marginTop: 14,
                 width: "60%",
@@ -58,11 +61,30 @@ export default function DrawerRoutes(){
             /> 
 
             <Drawer.Screen 
+                name="CronometroScreen" 
+                component={CronometroScreen} 
+                options={{
+                    drawerLabel: "Cronometro",
+                    drawerIcon: ({ color, size }) => <Ionicons name="time" color={color} size={size} />
+                }} 
+            /> 
+
+            <Drawer.Screen 
                 name="AdicionarTarefa" 
                 component={TarefaScreen} 
                 options={{
                     drawerLabel: "Adicionar tarefa",
                     drawerIcon: ({ color, size }) => <Ionicons name="document" color={color} size={size} />,
+                    drawerItemStyle: { display: 'none' }
+                }} 
+            /> 
+
+            <Drawer.Screen 
+                name="TarefaViewScreen" 
+                component={TarefaViewScreen} 
+                options={{
+                    drawerLabel: "TarefaViewScreen",
+                    drawerIcon: ({ color, size }) => <Ionicons name="open" color={color} size={size} />,
                     drawerItemStyle: { display: 'none' }
                 }} 
             /> 
@@ -76,6 +98,8 @@ export default function DrawerRoutes(){
                     drawerItemStyle: { display: 'none' }
                 }} 
             />  
+
+            
                 
         </Drawer.Navigator>
     )

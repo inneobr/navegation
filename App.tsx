@@ -7,6 +7,7 @@ import { Alert, StatusBar } from "react-native";
 
 import migrations from "./drizzle/migrations";
 import Routes from "./src/routes";
+import { useTheme } from "@/customs";
 
 const DATABASE_NAME = "database.db";
 
@@ -22,9 +23,11 @@ export default function App() {
    return error;
   }
 
+  const theme = useTheme();
+
   return (
     <SQLiteProvider databaseName={ DATABASE_NAME }>
-      <StatusBar backgroundColor={'#18181B' } barStyle={'light-content'}  hidden={false}/>
+      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content' }  backgroundColor={theme.base}/>
       <Routes />
     </SQLiteProvider>
   );

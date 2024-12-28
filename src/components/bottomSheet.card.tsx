@@ -8,6 +8,7 @@ import { useSQLiteContext } from "expo-sqlite";
 
 import CalendarCard from "./calendar.card";
 import { StyleSheet } from "react-native";
+import { useTheme } from "@/customs";
 
 type Props = {
     onChange: (date: string ) => void
@@ -50,10 +51,11 @@ const BotonSheetCard = ({onChange, ...rest}: Props) => {
 		),[]
 	);
 
+    const theme = useTheme()
     return (
         <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints} animationConfigs={animationConfigs} 
             backdropComponent={renderBackdrop}
-            handleIndicatorStyle={{backgroundColor: '#F0F0F0'}}  
+            handleIndicatorStyle={{backgroundColor: theme.tint}}  
             backgroundStyle={{backgroundColor: "transparent", marginBottom: 30}}>
             <BottomSheetView>
                 <CalendarCard tarefas={database} onChange={onChange}/>
@@ -66,7 +68,6 @@ export default BotonSheetCard
 const css = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: "white",
         borderTopLeftRadius:  20,
         borderTopRightRadius: 20
     }

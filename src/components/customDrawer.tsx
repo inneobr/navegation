@@ -13,6 +13,7 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import { eq } from "drizzle-orm";
+import { useTheme } from "@/customs";
 
 type drawerProps =  DrawerNavigationProp<DrawerProps, 'AgendaCategoria'>;
 export default function DrawerContent(props: any) { 
@@ -25,7 +26,7 @@ export default function DrawerContent(props: any) {
 
     const data = { ...props, state: { ...props.state, routes: filter }};
     function handlerCategoriaList(event: number){ 
-        navigation.navigate('AgendaCategoria', { categoriaID: event});        
+        navigation.navigate('AgendaCategoria', { CAT_ID: event});        
     }  
     
     const db = useSQLiteContext();
@@ -71,8 +72,7 @@ export default function DrawerContent(props: any) {
         fetchData();
     }, [categorias]);
 
-    
-
+    const theme = useTheme();
     return (
         <View style={css.container}>   
             <DrawerContentScrollView {...props} scrollEnabled={true}> 
@@ -81,8 +81,8 @@ export default function DrawerContent(props: any) {
                     return (
                         <GestureDetector gesture={longGesture(route.id)} key={route.id}> 
                             <DrawerItem key={route.id} 
-                                icon={()    => (<MaterialIcons name='menu' color={'#FFF'} size={24}/> )}
-                                label={()   => (<Text style={{color: '#FFF', fontSize: 16}}>{route.title}</Text>)}                           
+                                icon={()    => (<MaterialIcons name='menu' color={theme.font} size={24}/> )}
+                                label={()   => (<Text style={{color: theme.font, fontSize: 16}}>{route.title}</Text>)}                           
                                 onPress={() => handlerCategoriaList(route.id)}
                             />              
                         </GestureDetector>                    
@@ -91,15 +91,15 @@ export default function DrawerContent(props: any) {
             </DrawerContentScrollView>  
             
             <View style={css.footer}>                
-                <TouchableOpacity onPress={() => navigation.navigate("CategoriaScreen", {categoriaID: 0})}>
+                <TouchableOpacity onPress={() => navigation.navigate("CategoriaScreen", {CAT_ID: 0})}>
                     <View style={css.buttom}>
-                        <MaterialIcons name="add" color={'#FFF'} size={22}/>
-                        <Text style={{color: '#FFF'}}>Adicionar lista</Text>  
+                        <MaterialIcons name="add" color={theme.font} size={22}/>
+                        <Text style={{color: theme.font}}>Adicionar lista</Text>  
                     </View>
                 </TouchableOpacity>   
 
                 <TouchableOpacity onPress={() => navigation.navigate("SettingsOpen")}>
-                    <MaterialIcons name="menu" color={'#FFF'} size={22}/>
+                    <MaterialIcons name="menu" color={theme.font} size={22}/>
                 </TouchableOpacity>         
             </View>
         </View>

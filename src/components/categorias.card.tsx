@@ -1,6 +1,6 @@
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { Directions, Gesture, GestureDetector } from "react-native-gesture-handler";
-import { Alert, Dimensions, StyleSheet, Text } from "react-native";
+import { Alert, Dimensions, StyleSheet, Text, View } from "react-native";
 
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
@@ -8,11 +8,11 @@ import * as tabelaScheme from "@/database/tabelaScheme";
 
 import { DrawerProps } from "@/routes/drawerProps";
 import { drizzle } from 'drizzle-orm/expo-sqlite';
-import { themeProps } from "@/utils/responsive";
 
 import { useSQLiteContext } from 'expo-sqlite';
 import { eq } from "drizzle-orm";
 import React  from "react";
+import { useTheme } from "@/customs";
 
 type Props = {
     id:    number
@@ -65,16 +65,18 @@ const CategoriasCard = ({ id, title, color }: Props) => {
     }
 
     function onUpdate(item: number){
-        navigation.navigate("CategoriaScreen", {categoriaID: id});
+        navigation.navigate("CategoriaScreen", {CAT_ID: id});
         setTimeout(()=> {
             position.value = withTiming(0, { duration: 500 })
         }, 2000);        
     }
 
+    const theme = useTheme();
     return (
         <GestureDetector gesture={Gesture.Exclusive(directionRight(id), directionLeft(id))} key={id}>
-            <Animated.View style={[css.container, {backgroundColor: color }, animatedStyle]}>
-                <Text style={[css.title, {color: '#FFF'}]}>{title}</Text>           
+            <Animated.View style={[css.container, {backgroundColor: theme.base }, animatedStyle]}>
+                <Text style={[css.title, {color: color}]}>{title}</Text> 
+                <View style={{backgroundColor: color}}/>          
             </Animated.View>             
         </GestureDetector> 
     )
@@ -83,6 +85,7 @@ export default CategoriasCard
 
 const css = StyleSheet.create({   
     container: {
+        flexDirection: "row",
         borderRadius: 8,
         elevation: 2,
         padding: 14,

@@ -11,14 +11,14 @@ interface eventosProps {
     prioridade:  string | any;
     data:        string | any; 
     hora:        string | any; 
-    categoria:   number | any;
+    categoria_id:   number | any;
 }
 
 interface imagenProps {
     id:       number;
     title:    string;
     base64:   string;
-    tarefa:  number;
+    tarefa_id:   number;
 }
 
 interface cronometroProps {
@@ -27,7 +27,7 @@ interface cronometroProps {
     hours:    number;
     minutes:  number;
     seconds:  number;
-    tarefa:  number;
+    tarefa_id:   number;
 }
 
 export { categoriaProps, eventosProps, imagenProps, cronometroProps }

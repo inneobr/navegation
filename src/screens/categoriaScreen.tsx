@@ -12,6 +12,7 @@ import { drizzle } from 'drizzle-orm/expo-sqlite';
 
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
+import { useTheme } from '@/customs';
 import { eq } from 'drizzle-orm';
 
 export default function CadastrarCategoria() {
@@ -23,15 +24,8 @@ export default function CadastrarCategoria() {
   const usql = useSQLiteContext();
   const execute = drizzle(usql, { schema: tabelaScheme });
 
-  const handlerSave = () => {
-    if(route.params.categoriaID){
-      onUpdate()
-    }else {
-      onSave()
-    }
-  }
-
   async function onSave() {
+    if(route.params.CAT_ID) return onUpdate()
     if(!title ) { return Alert.alert("Atenção!", "Nome é obrigatorio.")}
     try {             
       await execute.insert(tabelaScheme.categoria).values({title, color});      
@@ -52,7 +46,7 @@ export default function CadastrarCategoria() {
       }
       try {  
           await execute.update(tabelaScheme.categoria).set({title, color})
-            .where(eq(tabelaScheme.categoria.id, Number(route.params.categoriaID)));                    
+            .where(eq(tabelaScheme.categoria.id, Number(route.params.CAT_ID)));                    
       } catch (error) {
           console.log(error);
       }
@@ -62,7 +56,7 @@ export default function CadastrarCategoria() {
   async function findByID() {
       try {
           const response = await execute.query.categoria.findFirst({
-              where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(route.params?.categoriaID)))
+              where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(route.params?.CAT_ID)))
           });           
           setTitle(response?.title);
           setColor(response?.color)
@@ -84,24 +78,25 @@ export default function CadastrarCategoria() {
 
   
   useFocusEffect(useCallback(() => {
-    if(route.params?.categoriaID){
+    if(route.params?.CAT_ID){
       findByID();
     }
   },[route.params]));  
 
+  const theme = useTheme();
   return (
-    <View style={[css.container, {backgroundColor: '#18181B' }]}>
+    <View style={[css.container, {backgroundColor: theme.base }]}>
       <View style={css.section}>
-        <Text style={[css.title, {color: '#FFF'}]}>{route.params.categoriaID? 'Editar lista' : 'Adicionar lista'}</Text> 
+        <Text style={[css.title, {color: theme.font}]}>{route.params.CAT_ID? 'Editar lista' : 'Adicionar lista'}</Text> 
         
         <TouchableOpacity onPress={() => handlerClose()}>
-          <MaterialCommunityIcons name="close-box" color={'#FFF'} size={22}/>            
+          <MaterialCommunityIcons name="close-box" color={theme.font} size={22}/>            
         </TouchableOpacity>              
       </View>
       
       <InputCard placeholder={"Nome da lista"} value={title} onChangeText={setTitle}/>
       <PickColorCard filter={color} onChange={handlerColor}/>
-      <ButtonSaveCard icon={'save'} title='Salvar' onPress={() => handlerSave()}/> 
+      <ButtonSaveCard icon={'save'} title='Salvar' onPress={() => onSave()}/> 
     </View>
   );
 }

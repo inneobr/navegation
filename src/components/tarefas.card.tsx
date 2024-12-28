@@ -1,6 +1,6 @@
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { Directions, Gesture, GestureDetector } from "react-native-gesture-handler";
-import { Alert, Dimensions, StyleSheet, Text } from "react-native";
+import { Alert, Dimensions, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { categoriaProps } from "@/database/interfacesScheme";
@@ -13,6 +13,7 @@ import { DrawerProps } from "@/routes/drawerProps";
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useSQLiteContext } from 'expo-sqlite';
 import { eq } from "drizzle-orm";
+import { useTheme } from "@/customs";
 
 type Props = {
     id:          number
@@ -27,8 +28,7 @@ const width = Dimensions.get('window').width;
 const TarefasCard = ({ id, title, description, categoriaID }: Props) => { 
     const [categoria,  setCategoria]  = useState<categoriaProps>();  
     const navigation = useNavigation<drawerProps>();
-    const position = useSharedValue(0); 
-    
+    const position = useSharedValue(0);     
 
     const directionRight = (item: number) => Gesture.Fling()
       .direction(Directions.LEFT)
@@ -45,6 +45,22 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
         onUpdate(item);
       })
     .runOnJS(true);
+
+    const pressGesture = (item: number) => Gesture
+        .LongPress()
+        .onTouchesDown(() => {
+        
+        })
+        .onEnd((e, success) => {
+        if (success) {
+            onPress(id)
+        }
+        })
+    .runOnJS(true);
+
+    function onPress(item: number){
+        navigation.navigate('TarefaViewScreen', { tarefaID: item });        
+    }
      
     const animatedStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: position.value }],
@@ -52,6 +68,7 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
 
     const db = useSQLiteContext();
     const connect  = drizzle(db, { schema: tabelaScheme });  
+    
     
     const handlerDelete = (item: number) => { 
         Alert.alert('', 'Deseja apagar?', [
@@ -70,7 +87,7 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
     }
 
     function onUpdate(item: number){
-        navigation.navigate('AdicionarTarefa', {tarefaID: item, categoriaID: categoria?.id});  ;
+        navigation.navigate('AdicionarTarefa', {ID: item, CAT_ID: categoria?.id});
         setTimeout(()=> {
             position.value = withTiming(0, { duration: 500 })
         }, 2000);        
@@ -88,19 +105,20 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
             console.log(error)
         }
     } 
-    
+        
     useEffect(() => {
         getCategoria()
     }, [categoriaID])
 
+    const theme = useTheme()
     return (
-        <GestureDetector gesture={Gesture.Exclusive(directionRight(id), directionLeft(id))} key={id}>           
-            <Animated.View style={[css.container, {backgroundColor: '#18181B', paddingHorizontal: 12 }, animatedStyle]}> 
+        <GestureDetector gesture={Gesture.Exclusive(pressGesture(id), directionRight(id), directionLeft(id))} key={id}>           
+            <Animated.View style={[css.container, {backgroundColor: theme.base, paddingHorizontal: 12 }, animatedStyle]}> 
                 <Animated.View style={{justifyContent: "space-between", flexDirection: "row"}}>
-                    <Text style={[css.title, {color: '#FFFFFF', elevation: 8}]}>{title}</Text>  
-                    <Animated.View style={[css.categoria, {backgroundColor: categoria?.color}]}/>                  
+                    <Text style={[css.title, {color: theme.font, elevation: 8}]}>{title}</Text>
+                    <Animated.View style={[css.categoria, {backgroundColor: categoria?.color}]}/>     
                 </Animated.View> 
-                <Text style={[css.descrition, {color: '#F0F0F0'}]}>{description}</Text>
+                <Text style={[css.descrition, {color: theme.tint}]}>{description}</Text>   
             </Animated.View>  
             
         </GestureDetector> 

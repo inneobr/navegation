@@ -1,4 +1,4 @@
-import { themeProps } from "@/utils/responsive";
+import { useTheme } from "@/customs";
 import { StyleSheet, Text, TouchableOpacityProps, View } from "react-native";
 
 type Props = TouchableOpacityProps & {
@@ -6,9 +6,10 @@ type Props = TouchableOpacityProps & {
 }
 
 const TopTitleCard = ({ title, ...rest}: Props) => {
+    const theme = useTheme()
     return (
-        <View style={[css.container, {backgroundColor: '#18181B'}]}>
-          <Text style={[css.title, {color: '#FFF'}]}>{title}</Text>  
+        <View style={[css.container, {backgroundColor: theme.card}]}>
+          <Text style={[css.title, {color: theme.font}]}>{title}</Text>  
         </View> 
     )
 }

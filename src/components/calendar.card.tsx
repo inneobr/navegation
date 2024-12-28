@@ -1,22 +1,28 @@
 import { StyleSheet, useWindowDimensions, View } from "react-native";
 import { eventosProps } from '@/database/interfacesScheme';
-import { Calendar } from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 
 import React, { useState } from "react";
 import moment from 'moment';
+import { useTheme } from "@/customs";
+import { ptBR } from "@/utils/data/locale";
 
 type Props = {
     tarefas:  eventosProps[];
     onChange: (date: string ) => void
 }
 
+LocaleConfig.locales["pt-br"] = ptBR;
+LocaleConfig.defaultLocale = "pt-br";
+
 const CalendarCard = ({tarefas, onChange}: Props) => { 
     const [ selected, setSelected] = useState<string>('');
     const { width } = useWindowDimensions();
+    const theme = useTheme()
 
     const markedDates = tarefas.reduce((acc, item) => {
-        acc[item.data] = { selected: false, marked: true,  selectedColor: "#F06543" };
-        acc[selected] = { selected: true,  marked: false, selectedColor:  '#434d53'};
+        acc[item.data] = { selected: false, marked: true,  selectedColor: theme.open };
+        acc[selected] = { selected: true,  marked: false,  selectedColor: theme.open};
         return acc;
     }, {} as Record<string, { selected: boolean; marked: boolean; selectedColor: string }>); 
     
@@ -30,21 +36,22 @@ const CalendarCard = ({tarefas, onChange}: Props) => {
         }        
     }
 
+    
     return (             
-            <View style={[css.container, {width: width - 28, backgroundColor: '#18181B'}]}> 
-                <View style={[css.line, {backgroundColor: '#F0F0F0'}]} />
+            <View style={[css.container, {width: width - 28, backgroundColor: theme.base}]}> 
+                <View style={[css.line, {backgroundColor: theme.font}]} />
                 <Calendar
                     markedDates={markedDates}
                     onDayPress={(day : any) => selectData(day.dateString)}
                     theme={{
-                        selectedDayBackgroundColor: '#434d53',
-                        textDayStyle: { color: '#F0F0F0' },
-                        selectedDayTextColor: '#F0F0F0',
-                        textDisabledColor:  '#F0F0F0',
-                        calendarBackground: '#18181B', 
-                        monthTextColor: '#FFF',
-                        arrowColor: '#F0F0F0',               
-                        todayTextColor: "#F06543",
+                        selectedDayBackgroundColor: theme.open,
+                        textDayStyle: { color: theme.font },
+                        selectedDayTextColor: theme.font,
+                        textDisabledColor:  theme.tint,
+                        calendarBackground: theme.base, 
+                        monthTextColor: theme.font,
+                        arrowColor: theme.font,               
+                        todayTextColor: theme.open,
                         textMonthFontSize: 18,
                         arrowStyle: {
                         margin: 0,

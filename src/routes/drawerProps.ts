@@ -3,15 +3,19 @@ export type DrawerProps = {
     SettingsOpen: undefined,
 
     AgendaCategoria: {
-        categoriaID: number
+        CAT_ID: number
     }
 
     CategoriaScreen:{ 
-        categoriaID: number 
+        CAT_ID: number 
     };
     
     AdicionarTarefa: { 
-        tarefaID: number | any, 
-        categoriaID: number | any 
-    }; 
+        ID: number | any, 
+        CAT_ID: number | any 
+    };
+
+    CronometroScreen: { ID: number}
+
+    TarefaViewScreen: { ID: number }
 };

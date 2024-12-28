@@ -29,7 +29,7 @@ export default function AgendaCategoriaScreen() {
   async function findByCategoria() { 
     try {
         const response = await connect.query.tarefa.findMany({
-          where: ((categoria, { eq }) => eq(tabelaScheme.tarefa.categoria, Number(route.params.categoriaID)))
+          where: ((categoria_id, { eq }) => eq(tabelaScheme.tarefa.categoria_id, Number(route.params.CAT_ID)))
         });           
         setDatabase(response);
     } catch (error) {
@@ -44,11 +44,11 @@ export default function AgendaCategoriaScreen() {
   }
 
   function handlerNovo(){
-    navigation.navigate('AdicionarTarefa', {tarefaID: null, categoriaID: route.params.categoriaID});       
+    navigation.navigate('AdicionarTarefa', {ID: null, CAT_ID: route.params.CAT_ID});       
   }
         
   useFocusEffect(useCallback(() => {
-    if(route.params?.categoriaID){      
+    if(route.params?.CAT_ID){      
       findByCategoria();   
     } 
   },[database]))

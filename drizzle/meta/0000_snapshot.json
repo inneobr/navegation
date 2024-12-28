@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "9a8d97f4-a5e5-4a48-854f-44bf2660d6cc",
+  "id": "c1705844-3c17-47e6-aae5-dead2d6e38d4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "categoria": {
@@ -81,8 +81,15 @@
           "notNull": false,
           "autoincrement": false
         },
-        "tarefa": {
-          "name": "tarefa",
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "tarefa_id": {
+          "name": "tarefa_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -90,21 +97,7 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "cronometro_tarefa_tarefa_id_fk": {
-          "name": "cronometro_tarefa_tarefa_id_fk",
-          "tableFrom": "cronometro",
-          "tableTo": "tarefa",
-          "columnsFrom": [
-            "tarefa"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
@@ -133,8 +126,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "tarefa": {
-          "name": "tarefa",
+        "tarefa_id": {
+          "name": "tarefa_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -143,12 +136,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "imagens_tarefa_tarefa_id_fk": {
-          "name": "imagens_tarefa_tarefa_id_fk",
+        "imagens_tarefa_id_tarefa_id_fk": {
+          "name": "imagens_tarefa_id_tarefa_id_fk",
           "tableFrom": "imagens",
           "tableTo": "tarefa",
           "columnsFrom": [
-            "tarefa"
+            "tarefa_id"
           ],
           "columnsTo": [
             "id"
@@ -157,6 +150,44 @@
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "setting": {
+      "name": "setting",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "color": {
+          "name": "color",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "checked": {
+          "name": "checked",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
@@ -206,8 +237,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "categoria": {
-          "name": "categoria",
+        "categoria_id": {
+          "name": "categoria_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -216,12 +247,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tarefa_categoria_categoria_id_fk": {
-          "name": "tarefa_categoria_categoria_id_fk",
+        "tarefa_categoria_id_categoria_id_fk": {
+          "name": "tarefa_categoria_id_categoria_id_fk",
           "tableFrom": "tarefa",
           "tableTo": "categoria",
           "columnsFrom": [
-            "categoria"
+            "categoria_id"
           ],
           "columnsTo": [
             "id"
