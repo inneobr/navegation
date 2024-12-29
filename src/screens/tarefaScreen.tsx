@@ -1,6 +1,6 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import BotonSheetCard from "@/components/bottomSheet.card";
 import ButtonIconCard from "@/components/buttonIcon.card";
@@ -16,7 +16,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { eq } from "drizzle-orm";
 import moment from "moment";
 import { useTheme } from "@/customs";
-
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 export default function TarefaScreen() {   
   const [title,       setTitle       ] = useState<string | any>('');
   const [description, setDescription ] = useState<string | any>('');
@@ -60,12 +60,6 @@ export default function TarefaScreen() {
     tarefaClear();
   }
 
-  const handlerInfo = () => {
-    Alert.alert("Ajuda", "Para acessar o calendário deslize a parte inferior da tela para cima ↕️",[
-      { style: 'cancel', text: "OK" }
-    ]);    
-  }
-
   async function findByID() {
     try {
         const response = await execute.query.tarefa.findFirst({
@@ -100,16 +94,6 @@ export default function TarefaScreen() {
   return (
     <React.Fragment>
       <View style={[css.container, {width: width - 28, backgroundColor: theme.card}]}>
-        <View style={css.section}>
-          <Text style={[css.title, {color: theme.font}]}>{route.params?.ID ? 'Editar a tarefa' : 'Adicionar nova tarefa'}</Text>
-          
-          <ButtonIconCard icon={'calendar'} title={moment(data).format('DD-MM-YYYY')} onPress={()=> handlerInfo()}/>
-
-          <TouchableOpacity onPress={() =>  tarefaClear()}>
-            <MaterialCommunityIcons name="close-box" color={theme.font} size={22}/>            
-          </TouchableOpacity>
-        </View> 
-
         <InputCard placeholder={"Nome"} value={title} onChangeText={setTitle} />
         <InputCard placeholder={"Descrição"} value={description} onChangeText={setDescription} multiline />      
         <ButtonSaveCard icon={'save'} title='Salvar' onPress={() => onSave()}/>  
@@ -122,30 +106,9 @@ export default function TarefaScreen() {
 const css = StyleSheet.create({
   container: {
     borderRadius: 8,
+    paddingTop: 40,
     padding: 20,
     margin: 14,
     gap: 20,
-  },
-
-  section: {
-    justifyContent: "space-between", 
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 8,
-    padding: 8,
-    gap: 8
-  },
-
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-    gap: 8
-  },
-
-  title: {
-    textTransform: "uppercase",
-    fontWeight: '500',
-    fontSize: 16,    
   },
 })

@@ -7,7 +7,6 @@ import CategoriasCard from "@/components/categorias.card";
 import { EmptyContent } from "@/components/emptyContent";
 
 import * as tabelaScheme from "@/database/tabelaScheme";
-import TopTitleCard from "@/components/topTitle.card";
 import ButtonPlus from "@/components/buttonplus.card";
 
 import { DrawerProps } from "@/routes/drawerProps";
@@ -38,7 +37,6 @@ export default function CategoriaListScreen(){
 
     return (
         <View style={css.container}>
-            <TopTitleCard title={'Menu tarefas pessoais'}/>
             <FlatList
                 data={categorias}  
                 horizontal = {false}           
@@ -61,7 +59,6 @@ const css = StyleSheet.create({
   container: {
     justifyContent: "space-between",
     flexDirection: "column",  
-    marginHorizontal: 14,   
     marginVertical: 8,
     flex: 1,
     gap: 6   

@@ -85,15 +85,7 @@ export default function CadastrarCategoria() {
 
   const theme = useTheme();
   return (
-    <View style={[css.container, {backgroundColor: theme.card }]}>
-      <View style={css.section}>
-        <Text style={[css.title, {color: theme.font}]}>{route.params.CAT_ID? 'Editar lista' : 'Adicionar lista'}</Text> 
-        
-        <TouchableOpacity onPress={() => handlerClose()}>
-          <MaterialCommunityIcons name="close-box" color={theme.font} size={22}/>            
-        </TouchableOpacity>              
-      </View>
-      
+    <View style={[css.container, {backgroundColor: theme.card }]}>      
       <InputCard placeholder={"Nome da lista"} value={title} onChangeText={setTitle}/>
       <PickColorCard filter={color} onChange={handlerColor}/>
       <ButtonSaveCard icon={'save'} title='Salvar' onPress={() => onSave()}/> 
@@ -105,31 +97,11 @@ const css = StyleSheet.create({
   container: {
     flexDirection: "column",
     borderRadius: 8,
+    paddingTop: 40,
     padding: 14,
     margin: 8,
     gap: 30
   },
-
-  section: {
-      justifyContent: "space-between", 
-      borderRadius: 8,
-      flexDirection: "row",
-      padding: 8,
-      gap: 8
-  },
-
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8
-  },
-
-  title: {
-    textTransform: "uppercase",
-    fontWeight: '500',
-    fontSize: 16,
-  },
-
   input: {
       borderRadius: 6,
       borderWidth: 1,

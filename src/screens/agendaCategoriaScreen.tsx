@@ -62,7 +62,7 @@ export default function AgendaCategoriaScreen() {
         contentContainerStyle={database.length === 0 ? css.emptySection : css.section}               
         keyExtractor={(item) => String(item.id)}     
         renderItem={({item}) => (                                               
-          <TarefasCard id={item.id} title={item.title} description={item.description} categoriaID={item.categoria}/>
+          <TarefasCard id={item.id} title={item.title} description={item.description} categoria_id={item.categoria_id}/>
         )}
         ListEmptyComponent={() => ( 
           <EmptyContent title={"Lista vazia"} message={"🐕‍🦺 Leve seus pets para passear."}/>

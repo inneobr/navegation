@@ -14,20 +14,20 @@ interface eventosProps {
     categoria_id:   number | any;
 }
 
-interface imagenProps {
-    id:       number;
-    title:    string;
-    base64:   string;
-    tarefa_id:   number;
+interface imageProps {
+    id:          number; 
+    uuid:        number;
+    base64:      string;
+    description: string;
 }
 
 interface cronometroProps {
-    id:       number;
-    days:     number;
-    hours:    number;
-    minutes:  number;
-    seconds:  number;
-    tarefa_id:   number;
+    id:        number;
+    days:      number;
+    hours:     number;
+    minutes:   number;
+    seconds:   number;
+    tarefa_id: number;
 }
 
-export { categoriaProps, eventosProps, imagenProps, cronometroProps }
+export { categoriaProps, eventosProps, imageProps, cronometroProps }

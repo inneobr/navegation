@@ -19,13 +19,13 @@ type Props = {
     id:          number
     title:       string,
     description: string,
-    categoriaID: number | any
+    categoria_id: number | any
 }
 
 type drawerProps =  DrawerNavigationProp<DrawerProps, 'AdicionarTarefa'>;
 const width = Dimensions.get('window').width;
 
-const TarefasCard = ({ id, title, description, categoriaID }: Props) => { 
+const TarefasCard = ({ id, title, description, categoria_id }: Props) => { 
     const [categoria,  setCategoria]  = useState<categoriaProps>();  
     const navigation = useNavigation<drawerProps>();
     const position = useSharedValue(0);     
@@ -34,7 +34,7 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
       .direction(Directions.LEFT)
       .onStart(() => {position.value = withTiming(-width, { duration: 500 })})
       .onEnd(() => {
-        onUpdate(item);
+        handlerDelete(item);
         setTimeout(()=> {
             position.value = withTiming(0, { duration: 500 })
         }, 2000);
@@ -45,7 +45,7 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
       .direction(Directions.RIGHT)
       .onStart(() => { position.value = withTiming(width, { duration: 500 })})
       .onEnd(() => {   
-        onPress(id);
+        onUpdate(item);
         setTimeout(()=> {
             position.value = withTiming(0, { duration: 500 })
         }, 2000);
@@ -55,13 +55,12 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
     const pressGesture = (item: number) => Gesture
         .LongPress()
         .onTouchesDown(() => {
-        
         })
         .onEnd((e, success) => {
-        if (success) {
-            handlerDelete(item);            
+        if (success) {                  
+            onPress(item)  
         }
-        })
+    })
     .runOnJS(true);
 
     function onPress(item: number){
@@ -101,17 +100,17 @@ const TarefasCard = ({ id, title, description, categoriaID }: Props) => {
     async function getCategoria() { 
         try {
             const response = await categoriaDB.query.categoria.findFirst({
-                where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(categoriaID)))
+                where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(categoria_id)))
             });           
             setCategoria(response);
         } catch (error) {
             console.log(error)
         }
     } 
-        
+            
     useEffect(() => {
         getCategoria()
-    }, [categoriaID])
+    }, [categoria_id])
 
     const theme = useTheme()
     return (

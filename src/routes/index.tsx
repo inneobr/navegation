@@ -9,7 +9,6 @@ export default function Routes(){
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaProvider>
                 <NavigationContainer>
-                    <HeaderCard /> 
                     <DrawerRoutes />
                 </NavigationContainer>
             </SafeAreaProvider>

@@ -45,7 +45,7 @@ const css =StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 100,   
-        height: 35,   
+        height: 26,   
         width: 35,
         padding: 2
     },
@@ -55,7 +55,7 @@ const css =StyleSheet.create({
         paddingHorizontal: 14,
         borderRadius: 100,
         borderWidth: 1,
-        height: 30,
-        width: 30,
+        height: 20,
+        width: 20,
     }
 });

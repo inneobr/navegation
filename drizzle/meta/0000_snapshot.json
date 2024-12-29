@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c1705844-3c17-47e6-aae5-dead2d6e38d4",
+  "id": "fe5ed21b-d978-4f6a-b415-644176629d6b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "categoria": {
@@ -102,8 +102,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "imagens": {
-      "name": "imagens",
+    "image": {
+      "name": "image",
       "columns": {
         "id": {
           "name": "id",
@@ -112,15 +112,46 @@
           "notNull": true,
           "autoincrement": false
         },
-        "title": {
-          "name": "title",
-          "type": "text",
+        "uuid": {
+          "name": "uuid",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "base64": {
           "name": "base64",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "link": {
+      "name": "link",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "url": {
+          "name": "url",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -136,9 +167,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "imagens_tarefa_id_tarefa_id_fk": {
-          "name": "imagens_tarefa_id_tarefa_id_fk",
-          "tableFrom": "imagens",
+        "link_tarefa_id_tarefa_id_fk": {
+          "name": "link_tarefa_id_tarefa_id_fk",
+          "tableFrom": "link",
           "tableTo": "tarefa",
           "columnsFrom": [
             "tarefa_id"
@@ -150,44 +181,6 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "setting": {
-      "name": "setting",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "color": {
-          "name": "color",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "checked": {
-          "name": "checked",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}

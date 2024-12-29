@@ -1,11 +1,10 @@
-
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import * as tabelaScheme from "@/database/tabelaScheme";
-import { MaterialIcons } from "@expo/vector-icons";
 
 import { DrawerProps } from "@/routes/drawerProps";
 import { drizzle } from "drizzle-orm/expo-sqlite";
@@ -13,6 +12,7 @@ import { useSQLiteContext } from "expo-sqlite";
 
 import { useCallback, useState } from "react";
 import { useTheme } from "@/customs";
+import { MaterialIcons } from "@expo/vector-icons";
 
 type drawerProps =  DrawerNavigationProp<DrawerProps, 'CronometroScreen'>;
 export default function TarefaViewScreen() {
@@ -27,6 +27,21 @@ export default function TarefaViewScreen() {
     const navigation = useNavigation<drawerProps>();
     if(route.params.ID === undefined) navigation.goBack();
 
+    const pressGesture = (item: number) => Gesture
+        .LongPress()
+        .onTouchesDown(() => {
+            onPress(item)   
+        })
+        .onEnd((e, success) => {
+        if (success) {   
+           
+        }
+    })
+    .runOnJS(true);  
+
+    function onPress(item: number){
+        navigation.navigate('AdicionarTarefa', {ID: item, CAT_ID: undefined});    
+    }
 
     const usql = useSQLiteContext();
     const execute = drizzle(usql, { schema: tabelaScheme });
@@ -56,19 +71,35 @@ export default function TarefaViewScreen() {
 
     useFocusEffect(useCallback(() => {
         findBy();    
-      },[route.params.ID]))
+    },[route.params.ID]))    
     
-      const theme = useTheme()
-    return (
-        <SafeAreaProvider style={{width: (width) + 5}}>
-            <View style={[css.container, {backgroundColor: theme.base}]}>
-                <Text style={[css.title, {color: theme.font}]}>{title}</Text> 
-                { description && <Text style={{color: theme.tint}}>{description}</Text> }
-                { prioridade && <Text style={[css.details, {color: theme.font}]}>{prioridade}</Text> }    
-                { hora && <Text style={[css.details, {color: theme.font}]}>{hora}</Text> }  
-                { data && <Text style={[css.details, {color: theme.font}]}>{data}</Text> }               
-            </View>
-        </SafeAreaProvider>
+    const theme = useTheme()
+    return (        
+            <SafeAreaProvider style={{width: (width) + 5}}>
+                <GestureDetector gesture={pressGesture(route.params.ID)} key={route.params.ID}> 
+                    <View style={[css.container, {backgroundColor: theme.base}]}>
+                        <Text style={[css.title, {color: theme.font}]}>{title}</Text> 
+                        { description && <Text style={{color: theme.tint}}>{description}</Text> }
+                        { prioridade && <Text style={[css.details, {color: theme.font}]}>{prioridade}</Text> }    
+                        { hora && <Text style={[css.details, {color: theme.font}]}>{hora}</Text> }  
+                        { data && <Text style={[css.details, {color: theme.font}]}>{data}</Text> }               
+                    </View>                
+                </GestureDetector>
+
+                <View style={{width: width, flexDirection: "row", margin: 14, gap: 8}}>
+                    <TouchableOpacity style={{padding: 12, backgroundColor: theme.card, borderRadius: 8}} onPress={()=> navigation.navigate("GalleryScreen", { uuid: route.params.ID})}>
+                        <MaterialIcons name="camera" size={24} color={theme.font} />
+                    </TouchableOpacity>
+            
+                    <TouchableOpacity style={{padding: 12, backgroundColor: theme.card, borderRadius: 8}}>
+                        <MaterialIcons name="link" size={24} color={theme.font} />
+                    </TouchableOpacity>
+            
+                    <TouchableOpacity style={{padding: 12, backgroundColor: theme.card, borderRadius: 8}}>
+                        <MaterialIcons name="comment" size={24} color={theme.font} />
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaProvider>
     )
 }
 

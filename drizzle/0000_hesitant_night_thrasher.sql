@@ -15,19 +15,18 @@ CREATE TABLE `cronometro` (
 	`tarefa_id` integer
 );
 --> statement-breakpoint
-CREATE TABLE `imagens` (
+CREATE TABLE `image` (
 	`id` integer PRIMARY KEY NOT NULL,
-	`title` text NOT NULL,
+	`uuid` integer NOT NULL,
 	`base64` text NOT NULL,
-	`tarefa_id` integer NOT NULL,
-	FOREIGN KEY (`tarefa_id`) REFERENCES `tarefa`(`id`) ON UPDATE no action ON DELETE cascade
+	`description` text
 );
 --> statement-breakpoint
-CREATE TABLE `setting` (
+CREATE TABLE `link` (
 	`id` integer PRIMARY KEY NOT NULL,
-	`title` text NOT NULL,
-	`color` text NOT NULL,
-	`checked` text NOT NULL
+	`url` text NOT NULL,
+	`tarefa_id` integer NOT NULL,
+	FOREIGN KEY (`tarefa_id`) REFERENCES `tarefa`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `tarefa` (
