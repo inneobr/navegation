@@ -12,7 +12,6 @@ import { DrawerProps } from "@/routes/drawerProps";
 
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useSQLiteContext } from 'expo-sqlite';
-import { eq } from "drizzle-orm";
 import { useTheme } from "@/customs";
 
 type Props = {
@@ -28,78 +27,17 @@ const width = Dimensions.get('window').width;
 const TarefasCard = ({ id, title, description, categoria_id }: Props) => { 
     const [categoria,  setCategoria]  = useState<categoriaProps>();  
     const navigation = useNavigation<drawerProps>();
-    const position = useSharedValue(0);     
 
-    const directionRight = (item: number) => Gesture.Fling()
-      .direction(Directions.LEFT)
-      .onStart(() => {position.value = withTiming(-width, { duration: 500 })})
-      .onEnd(() => {
-        handlerDelete(item);
-        setTimeout(()=> {
-            position.value = withTiming(0, { duration: 500 })
-        }, 2000);
-      })
-    .runOnJS(true);   
-  
-    const directionLeft = (item: number) => Gesture.Fling()
-      .direction(Directions.RIGHT)
-      .onStart(() => { position.value = withTiming(width, { duration: 500 })})
-      .onEnd(() => {   
-        onUpdate(item);
-        setTimeout(()=> {
-            position.value = withTiming(0, { duration: 500 })
-        }, 2000);
-      })
-    .runOnJS(true);
-
-    const pressGesture = (item: number) => Gesture
-        .LongPress()
-        .onTouchesDown(() => {
-        })
-        .onEnd((e, success) => {
-        if (success) {                  
-            onPress(item)  
-        }
-    })
-    .runOnJS(true);
-
-    function onPress(item: number){
-        navigation.navigate('TarefaViewScreen', { ID: item });        
+    const handlerTarefa = () => {
+        navigation.navigate('TarefaViewScreen', { ID: id });        
     }
-     
-    const animatedStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: position.value }],
-    }));
 
     const db = useSQLiteContext();
-    const connect  = drizzle(db, { schema: tabelaScheme });  
-    
-    
-    const handlerDelete = (item: number) => { 
-        Alert.alert('', 'Deseja apagar?', [
-            { text: "Cancelar", onPress: () => position.value = withTiming(0, { duration: 500 }) },
-            { text: "Confirmar", onPress: () => onDelete(item) },
-        ]);
-    }
-
-    async function onDelete(item: number){        
-        try {
-            await connect.delete(tabelaScheme.tarefa)
-            .where(eq(tabelaScheme.tarefa.id, item));
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    function onUpdate(item: number){
-        navigation.navigate('AdicionarTarefa', {ID: item, CAT_ID: categoria?.id});               
-    }
-    
-    const categoriaDB = drizzle(db, { schema: tabelaScheme }); 
+    const execute = drizzle(db, { schema: tabelaScheme }); 
     
     async function getCategoria() { 
         try {
-            const response = await categoriaDB.query.categoria.findFirst({
+            const response = await execute.query.categoria.findFirst({
                 where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(categoria_id)))
             });           
             setCategoria(response);
@@ -114,16 +52,14 @@ const TarefasCard = ({ id, title, description, categoria_id }: Props) => {
 
     const theme = useTheme()
     return (
-        <GestureDetector gesture={Gesture.Exclusive(pressGesture(id), directionRight(id), directionLeft(id))} key={id}>           
-            <Animated.View style={[css.container, {backgroundColor: theme.card, paddingHorizontal: 12 }, animatedStyle]}> 
+        <TouchableOpacity onPress={()=> handlerTarefa()}>        
+            <Animated.View style={[css.container, {backgroundColor: theme.card, paddingHorizontal: 12 }]}> 
                 <Animated.View style={{justifyContent: "space-between", flexDirection: "row"}}>
                     <Text style={[css.title, {color: theme.font, elevation: 8}]}>{title}</Text>
                     <Animated.View style={[css.categoria, {backgroundColor: categoria?.color}]}/>     
                 </Animated.View> 
-                <Text style={[css.descrition, {color: theme.tint}]}>{description}</Text>   
-            </Animated.View>  
-            
-        </GestureDetector> 
+            </Animated.View> 
+        </TouchableOpacity>   
     )
 }
 export default TarefasCard

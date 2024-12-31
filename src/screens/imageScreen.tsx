@@ -13,7 +13,6 @@ import { eq } from "drizzle-orm";
 import { Alert } from "react-native";
 
 export default function GalleryScreen() {
-    const [uuid, setUuid] = useState<number>(0)
     const [base64, setBase64] = useState('');
     const [description, setDescription] = useState('');
     const [database, setDatabase] = useState<imageProps[] | any>([]);
@@ -23,8 +22,11 @@ export default function GalleryScreen() {
     const execute = drizzle(usql, { schema: tabelaScheme }); 
 
     async function findByUuid() { 
+        let tafefa_id = Number(route.params.uuid);
         try {
-            const result = await execute.query.image.findMany(); 
+            const result = await execute.query.image.findMany({
+                where: ((uuid, { eq }) => eq(tabelaScheme.image.uuid, tafefa_id))
+            }); 
             setDatabase(result);
         } catch (error) {
             console.log(error)
@@ -32,9 +34,11 @@ export default function GalleryScreen() {
     };
 
     async function onSave() { 
+        let tafefa_id = Number(route.params.uuid);
+        if(base64.length < 20) return
         try {             
           await execute.insert(tabelaScheme.image)
-            .values({ uuid, base64, description });  
+            .values({ uuid: tafefa_id, base64, description });  
         } catch (error) {
           console.log(error);
         }        
@@ -61,7 +65,9 @@ export default function GalleryScreen() {
     },[base64]);
 
     useEffect(() => { 
-        findByUuid()
+        if(route.params.uuid){
+            findByUuid()
+        }         
     },[database]);
 
     const openGallery = async () => {
@@ -74,8 +80,7 @@ export default function GalleryScreen() {
         });
     
         if (!result.canceled) {            
-            if(result.assets[0]?.base64) {
-                setUuid(route.params.uuid)
+            if(result.assets[0]?.base64) {                
                 setBase64(result.assets[0]?.base64);
                 setDescription(String(result.assets[0]?.fileName));
             }                    

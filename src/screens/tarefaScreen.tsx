@@ -1,9 +1,7 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
-import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
+import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import { Alert, StyleSheet, useWindowDimensions, View } from "react-native";
 import BotonSheetCard from "@/components/bottomSheet.card";
-import ButtonIconCard from "@/components/buttonIcon.card";
 import ButtonSaveCard from "@/components/buttonSave.card";
 
 import * as tabelaScheme from "@/database/tabelaScheme";
@@ -13,15 +11,16 @@ import { InputCard } from "@/components/input.card";
 import { DrawerProps } from "@/routes/drawerProps";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
+import { useTheme } from "@/customs";
 import { eq } from "drizzle-orm";
 import moment from "moment";
-import { useTheme } from "@/customs";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { CardVertical, Input } from "@/theme/component";
+
 export default function TarefaScreen() {   
   const [title,       setTitle       ] = useState<string | any>('');
   const [description, setDescription ] = useState<string | any>('');
   const [hora,        setHora        ] = useState<string | any>('');
-  const [prioridade,  setPrioridade  ] = useState<string | any>('baixa');  
+  const [prioridade,  setPrioridade  ] = useState<string | any>('normal');  
   const [data,        setData        ] = useState<string | any>(moment().format('YYYY-MM-DD'));
 
   const { width } = useWindowDimensions();    
@@ -90,25 +89,16 @@ export default function TarefaScreen() {
     }
   },[route.params]));    
 
-  const theme = useTheme()
   return (
     <React.Fragment>
-      <View style={[css.container, {width: width - 28, backgroundColor: theme.card}]}>
+      <CardVertical style={{gap: 16}}>
         <InputCard placeholder={"Nome"} value={title} onChangeText={setTitle} />
-        <InputCard placeholder={"Descrição"} value={description} onChangeText={setDescription} multiline />      
-        <ButtonSaveCard icon={'save'} title='Salvar' onPress={() => onSave()}/>  
-      </View> 
+        <InputCard placeholder={"Descrição"} value={description} onChangeText={setDescription} multiline/>      
+        <ButtonSaveCard icon={'save'} title='Salvar' onPress={() => onSave()}/>          
+      </CardVertical> 
+
       <BotonSheetCard  onChange={setData}/>
-      </React.Fragment>
+    </React.Fragment>
+     
   )
 }
-
-const css = StyleSheet.create({
-  container: {
-    borderRadius: 8,
-    paddingTop: 40,
-    padding: 20,
-    margin: 14,
-    gap: 20,
-  },
-})

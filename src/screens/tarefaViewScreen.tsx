@@ -1,18 +1,22 @@
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { CardHorizontal, CardVertical, Separator, Subtitle, Title } from "@/theme/component";
+import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import * as tabelaScheme from "@/database/tabelaScheme";
-
 import { DrawerProps } from "@/routes/drawerProps";
-import { drizzle } from "drizzle-orm/expo-sqlite";
-import { useSQLiteContext } from "expo-sqlite";
 
-import { useCallback, useState } from "react";
-import { useTheme } from "@/customs";
 import { MaterialIcons } from "@expo/vector-icons";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import Externos from "@/components/externos.card";
+
+import Carrocel from "@/components/carrocel.card";
+import { useSQLiteContext } from "expo-sqlite";
+import { useCallback, useState } from "react";
+
+import { useTheme } from "@/customs";
+import { eq } from "drizzle-orm";
+import moment from "moment";
 
 type drawerProps =  DrawerNavigationProp<DrawerProps, 'CronometroScreen'>;
 export default function TarefaViewScreen() {
@@ -22,27 +26,21 @@ export default function TarefaViewScreen() {
     const [prioridade,  setPrioridade  ] = useState<string | any>('');  
     const [data,        setData        ] = useState<string | any>('');
 
-    const route = useRoute<RouteProp<DrawerProps, 'TarefaViewScreen'>>();
-    const { width } = useWindowDimensions();
+    const route = useRoute<RouteProp<DrawerProps, 'TarefaViewScreen'>>();  
     const navigation = useNavigation<drawerProps>();
-    if(route.params.ID === undefined) navigation.goBack();
+    const theme = useTheme()
 
-    const pressGesture = (item: number) => Gesture
-        .LongPress()
-        .onTouchesDown(() => {
-            onPress(item)   
-        })
-        .onEnd((e, success) => {
-        if (success) {   
-           
-        }
-    })
-    .runOnJS(true);  
-
-    function onPress(item: number){
-        navigation.navigate('AdicionarTarefa', {ID: item, CAT_ID: undefined});    
+    const handlerEditar = () => { 
+        let terefa_id = Number(route.params?.ID)   
+        navigation.navigate('AdicionarTarefa', {ID: terefa_id, CAT_ID: undefined});    
     }
 
+    const handlerDelete = () => { 
+        Alert.alert('', 'Deseja apagar?', [
+            { text: "Cancelar" },
+            { text: "Confirmar", onPress: () => onDelete() },
+        ]);
+    }
     const usql = useSQLiteContext();
     const execute = drizzle(usql, { schema: tabelaScheme });
 
@@ -69,55 +67,60 @@ export default function TarefaViewScreen() {
         }
     }
 
+    async function onDelete(){    
+        let terefa_id = Number(route.params?.ID)    
+        try {
+            await execute.delete(tabelaScheme.tarefa)
+            .where(eq(tabelaScheme.tarefa.id, terefa_id));
+        } catch (error) {
+            console.log(error);
+        }
+        navigation.goBack();
+    }
+
     useFocusEffect(useCallback(() => {
-        findBy();    
+        if(route.params?.ID !== undefined) {            
+            findBy();  
+        } else {
+            navigation.goBack();
+        } 
     },[route.params.ID]))    
     
-    const theme = useTheme()
+    
     return (        
-            <SafeAreaProvider style={{width: (width) + 5}}>
-                <GestureDetector gesture={pressGesture(route.params.ID)} key={route.params.ID}> 
-                    <View style={[css.container, {backgroundColor: theme.base}]}>
-                        <Text style={[css.title, {color: theme.font}]}>{title}</Text> 
-                        { description && <Text style={{color: theme.tint}}>{description}</Text> }
-                        { prioridade && <Text style={[css.details, {color: theme.font}]}>{prioridade}</Text> }    
-                        { hora && <Text style={[css.details, {color: theme.font}]}>{hora}</Text> }  
-                        { data && <Text style={[css.details, {color: theme.font}]}>{data}</Text> }               
-                    </View>                
-                </GestureDetector>
+            <View style={css.container}> 
+                <CardVertical>
+                    <CardHorizontal style={{justifyContent: "space-between", paddingHorizontal: 2, gap: 8}}>
+                        <Title style={{flex: 1, fontSize: 22}}>{title}</Title> 
+                        <TouchableOpacity onPress={()=> handlerDelete()}>
+                            <MaterialIcons name="delete" color={theme.tint} size={22} />
+                        </TouchableOpacity>
 
-                <View style={{width: width, flexDirection: "row", margin: 14, gap: 8}}>
-                    <TouchableOpacity style={{padding: 12, backgroundColor: theme.card, borderRadius: 8}} onPress={()=> navigation.navigate("GalleryScreen", { uuid: route.params.ID})}>
-                        <MaterialIcons name="camera" size={24} color={theme.font} />
-                    </TouchableOpacity>
-            
-                    <TouchableOpacity style={{padding: 12, backgroundColor: theme.card, borderRadius: 8}}>
-                        <MaterialIcons name="link" size={24} color={theme.font} />
-                    </TouchableOpacity>
-            
-                    <TouchableOpacity style={{padding: 12, backgroundColor: theme.card, borderRadius: 8}}>
-                        <MaterialIcons name="comment" size={24} color={theme.font} />
-                    </TouchableOpacity>
-                </View>
-            </SafeAreaProvider>
+                        <TouchableOpacity onPress={() => handlerEditar()}>
+                            <MaterialIcons name="edit" color={theme.tint} size={22} />
+                        </TouchableOpacity>
+                    </CardHorizontal>
+                    <Separator />
+
+                    <ScrollView style={{maxHeight: 200}}>
+                        { description && <Subtitle style={{color: theme.tint, textAlign: "justify", fontSize: 16}}>{description}</Subtitle> } 
+                    </ScrollView>
+                    <View style={{justifyContent: "flex-end", flexDirection: "row", paddingHorizontal: 2, marginTop: 10, gap: 8}}>
+                        { hora && <Subtitle style={{color: theme.tint}}>Hora: {hora}</Subtitle> }
+                        { data &&<Subtitle style={{color: theme.tint}}>Públicado: {moment(data).format('DD-MM-YYYY')}</Subtitle> }
+                        { prioridade && <Subtitle style={{color: theme.tint}}>Prioridade: {prioridade}</Subtitle> }
+                    </View> 
+                </CardVertical>
+
+                <Carrocel uuid={route.params?.ID}/>
+                <Externos uuid={route.params?.ID}/>
+            </View>
     )
 }
 
 const css = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    borderRadius: 8,
-    padding: 14,
-    margin: 14,
-    gap: 30
-  },
-
-  title: {
-    borderBottomColor: "#f0f0f0",
-    textTransform: "uppercase",
-    borderBottomWidth: 1,
-    paddingVertical: 14,
-    fontSize: 18,
+    flex: 1
   },
 
   details: {

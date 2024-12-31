@@ -16,10 +16,11 @@ export const tarefa = sqliteTable("tarefa", {
     categoria_id: integer('categoria_id').references(() => categoria.id, {onDelete: 'cascade'})
 });
 
-export const link = sqliteTable("link", {
-    id:          integer("id").primaryKey(), 
-    url:         text("url").notNull(),
-    tarefa_id:   integer('tarefa_id').references(() => tarefa.id, {onDelete: 'cascade'}).notNull(),
+export const externos = sqliteTable("link", {
+    id:    integer("id").primaryKey(), 
+    url:   text("url").notNull(),
+    title: text("title").notNull(),
+    uuid:  integer('uuid').notNull(),
 }); 
 
 export const image = sqliteTable("image", {

@@ -21,6 +21,13 @@ interface imageProps {
     description: string;
 }
 
+interface externosProps {
+    id:    number;
+    uuid:  string;
+    url:   number;
+    title: string;
+}
+
 interface cronometroProps {
     id:        number;
     days:      number;
@@ -30,4 +37,4 @@ interface cronometroProps {
     tarefa_id: number;
 }
 
-export { categoriaProps, eventosProps, imageProps, cronometroProps }
+export { categoriaProps, eventosProps, imageProps, cronometroProps, externosProps }

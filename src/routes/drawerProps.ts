@@ -18,5 +18,6 @@ export type DrawerProps = {
     CronometroScreen: { ID: number}
 
     TarefaViewScreen: { ID: number }
-    GalleryScreen: { uuid: number }
+    GalleryScreen:  { uuid?: number | undefined}
+    ExternosScreen: { uuid?: number | undefined}
 };

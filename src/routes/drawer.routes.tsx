@@ -60,13 +60,6 @@ export default function DrawerRoutes(){
                 options={{
                     headerTitle:"Filtrados",
                     drawerLabel: "Últimas categoria",
-                    headerRight: () => (
-                        <View style={{ marginRight: 20 }}>
-                            <TouchableOpacity onPress={() => navigation.goBack()}>
-                                <MaterialCommunityIcons name="home" size={24} color={theme.font}/>
-                            </TouchableOpacity>
-                        </View>
-                    ),  
                     drawerIcon: ({ color, size }) => <Ionicons name="add" color={color} size={size} />,
                     drawerItemStyle: { display: 'none' }
                 }} 
@@ -78,13 +71,6 @@ export default function DrawerRoutes(){
                 options={{                    
                     headerTitle:"Lista",
                     drawerLabel: "Adicionar lista",
-                    headerRight: () => (
-                        <View style={{ marginRight: 20 }}>
-                            <TouchableOpacity onPress={() => navigation.goBack()}>
-                                <MaterialCommunityIcons name="home" size={24} color={theme.font}/>
-                            </TouchableOpacity>
-                        </View>
-                    ), 
                     drawerIcon: ({ color, size }) => <Ionicons name="folder" color={color} size={size} />,
                     drawerItemStyle: { display: 'none' }
                     
@@ -106,25 +92,20 @@ export default function DrawerRoutes(){
                 options={{
                     headerTitle:"Galeria",
                     drawerLabel: "GalleryScreen",
-                    drawerIcon: ({ color, size }) => <Ionicons name="image" color={color} size={size} />
+                    drawerIcon: ({ color, size }) => <Ionicons name="image" color={color} size={size} />,
+                    drawerItemStyle: { display: 'none' }
                 }} 
             /> 
+            
             
             <Drawer.Screen 
                 name="AdicionarTarefa" 
                 component={TarefaScreen} 
                 options={{ 
-                    headerTitle:"Tarefas",
+                    headerTitle:"Tarefa",
                     drawerLabel: "Adicionar tarefa",
                     drawerIcon: ({ color, size }) => <Ionicons name="document" color={color} size={size} />,
-                    drawerItemStyle: { display: 'none' }, 
-                    headerRight: () => (
-                        <View style={{ marginRight: 20 }}>
-                            <TouchableOpacity onPress={() => navigation.goBack()}>
-                                <MaterialCommunityIcons name="home" size={24} color={theme.font}/>
-                            </TouchableOpacity>
-                        </View>
-                    ),                   
+                    drawerItemStyle: { display: 'none' }                
                 }} 
             /> 
 
@@ -132,7 +113,8 @@ export default function DrawerRoutes(){
                 name="TarefaViewScreen" 
                 component={TarefaViewScreen} 
                 options={{
-                    drawerLabel: "TarefaViewScreen",
+                    headerTitle:"Tarefa",
+                    drawerLabel: "Tarefa",
                     drawerIcon: ({ color, size }) => <Ionicons name="open" color={color} size={size} />,
                     drawerItemStyle: { display: 'none' }
                 }} 
@@ -140,7 +122,7 @@ export default function DrawerRoutes(){
 
             <Drawer.Screen 
                 name="SettingsOpen" 
-                component={TabRouter} 
+                component={TabRouter}
                 options={{
                     headerTitle:"Configurações",
                     drawerLabel: "Settings",
