@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "2ca1baea-8212-4e66-988a-2fe6fbc8a436",
+  "id": "9a4d01bf-709d-4a5e-8ddd-a9f336d81fe1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "categoria": {
@@ -53,6 +53,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "uuid": {
+          "name": "uuid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "days": {
           "name": "days",
           "type": "integer",
@@ -87,13 +94,6 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
-        },
-        "tarefa_id": {
-          "name": "tarefa_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
         }
       },
       "indexes": {},
@@ -102,13 +102,20 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "link": {
-      "name": "link",
+    "externos": {
+      "name": "externos",
       "columns": {
         "id": {
           "name": "id",
           "type": "integer",
           "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "uuid": {
+          "name": "uuid",
+          "type": "integer",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -122,13 +129,6 @@
         "title": {
           "name": "title",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "uuid": {
-          "name": "uuid",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -188,6 +188,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "uuid": {
+          "name": "uuid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "title": {
           "name": "title",
           "type": "text",
@@ -197,13 +204,6 @@
         },
         "description": {
           "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "prioridade": {
-          "name": "prioridade",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -222,31 +222,48 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "todolist": {
+      "name": "todolist",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
         },
-        "categoria_id": {
-          "name": "categoria_id",
+        "uuid": {
+          "name": "uuid",
           "type": "integer",
           "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "active": {
+          "name": "active",
+          "type": "text",
+          "primaryKey": false,
           "notNull": false,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "tarefa_categoria_id_categoria_id_fk": {
-          "name": "tarefa_categoria_id_categoria_id_fk",
-          "tableFrom": "tarefa",
-          "tableTo": "categoria",
-          "columnsFrom": [
-            "categoria_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}

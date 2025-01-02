@@ -17,7 +17,7 @@ import { useTheme } from "@/customs";
 
 import { eq } from "drizzle-orm";
 
-type Props = { uuid: number }
+type Props = { uuid: number | undefined }
 const Externos = ({uuid}: Props) => {
     const navigation = useNavigation<DrawerNavigationProp<DrawerProps, 'ExternosScreen'>>(); 
     const [database, setDatabase] = useState<externosProps[] | any>([])
@@ -65,7 +65,7 @@ const Externos = ({uuid}: Props) => {
     );
    
     return (
-        <CardVertical style={{maxHeight: "26%"}}>
+        <CardVertical style={{height: "20%", maxHeight: "20%"}}>
             <CardHorizontal style={{marginBottom: 8}}>
                 <Input placeholder="Lista de links" value={url} onChangeText={setUrl} numberOfLines={1}/>
                 <TouchableOpacity onPress={()=> onSave()}>
@@ -81,14 +81,14 @@ const Externos = ({uuid}: Props) => {
                 renderItem={({item}) => (    
                     <View style={{marginVertical: 8}}>                    
                         <View style={{justifyContent: "space-between", flexDirection: "row", gap: 16}}>
-                            <Subtitle style={{flex: 1, fontSize: 22}}>{item.title}</Subtitle>
+                            <Subtitle style={{flex: 1, fontSize: 15}}>{item.title}</Subtitle>
 
                             <TouchableOpacity onPress={()=> onDelete(item.id)}>
-                                <MaterialIcons name='delete' size={22} color={theme.tint}/>                                
+                                <MaterialIcons name='delete' size={15} color={theme.tint}/>                                
                             </TouchableOpacity>
 
                             <TouchableOpacity onPress={()=> Linking.openURL(item.url)}>
-                                <MaterialIcons name='language' size={22} color={theme.tint}/>
+                                <MaterialIcons name='language' size={15} color={theme.tint}/>
                             </TouchableOpacity>
                         </View>
                         <Separator />

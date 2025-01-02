@@ -29,7 +29,7 @@ const TarefasCard = ({ id, title, description, categoria_id }: Props) => {
     const navigation = useNavigation<drawerProps>();
 
     const handlerTarefa = () => {
-        navigation.navigate('TarefaViewScreen', { ID: id });        
+        navigation.navigate('TarefaViewScreen', { id: id });        
     }
 
     const db = useSQLiteContext();

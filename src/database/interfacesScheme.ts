@@ -1,17 +1,16 @@
 interface categoriaProps {
-    id:     number | any;
-    title:  string | any;
-    color:  string | any;
+    id:     number;
+    title:  string;
+    color:  string;
 }
 
 interface eventosProps {
-    id:          number | any;
-    title:       string | any;
-    description: string | any;
-    prioridade:  string | any;
-    data:        string | any; 
-    hora:        string | any; 
-    categoria_id:   number | any;
+    id:          number;
+    uuid:        number
+    title:       string;
+    description: string;
+    data:        string; 
+    hora:        string; 
 }
 
 interface imageProps {
@@ -23,18 +22,26 @@ interface imageProps {
 
 interface externosProps {
     id:    number;
-    uuid:  string;
+    uuid:  number;
     url:   number;
     title: string;
 }
 
+interface todolistProps {
+    id:             number;
+    uuid:           number;
+    description:    string;
+    active:         number;
+}
+
+
 interface cronometroProps {
     id:        number;
+    uuid:      number
     days:      number;
     hours:     number;
     minutes:   number;
     seconds:   number;
-    tarefa_id: number;
 }
 
-export { categoriaProps, eventosProps, imageProps, cronometroProps, externosProps }
+export { categoriaProps, eventosProps, imageProps, cronometroProps, externosProps, todolistProps }

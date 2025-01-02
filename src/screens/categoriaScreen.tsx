@@ -1,16 +1,15 @@
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { View, Alert, TouchableOpacity, StyleSheet, Text } from 'react-native';
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import ButtonSaveCard from '@/components/buttonSave.card';
 import * as tabelaScheme from "@/database/tabelaScheme";
-import PickColorCard from '@/components/pickColor.card';
 
+import PickColorCard from '@/components/pickColor.card';
+import { View, Alert, StyleSheet, BackHandler } from 'react-native';
 import { InputCard } from "@/components/input.card";
+
 import { DrawerProps } from '@/routes/drawerProps';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
-
 import { useSQLiteContext } from 'expo-sqlite';
+
 import { useCallback, useState } from 'react';
 import { useTheme } from '@/customs';
 import { eq } from 'drizzle-orm';
@@ -25,7 +24,7 @@ export default function CadastrarCategoria() {
   const execute = drizzle(usql, { schema: tabelaScheme });
 
   async function onSave() {
-    if(route.params.CAT_ID) return onUpdate()
+    if(route.params.id) return onUpdate()
     if(!title ) { return Alert.alert("Atenção!", "Nome é obrigatorio.")}
     try {             
       await execute.insert(tabelaScheme.categoria).values({title, color});      
@@ -46,7 +45,7 @@ export default function CadastrarCategoria() {
       }
       try {  
           await execute.update(tabelaScheme.categoria).set({title, color})
-            .where(eq(tabelaScheme.categoria.id, Number(route.params.CAT_ID)));                    
+            .where(eq(tabelaScheme.categoria.id, Number(route.params.id)));                    
       } catch (error) {
           console.log(error);
       }
@@ -56,7 +55,7 @@ export default function CadastrarCategoria() {
   async function findByID() {
       try {
           const response = await execute.query.categoria.findFirst({
-              where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(route.params?.CAT_ID)))
+              where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(route.params?.id)))
           });           
           setTitle(response?.title);
           setColor(response?.color)
@@ -78,12 +77,22 @@ export default function CadastrarCategoria() {
 
   
   useFocusEffect(useCallback(() => {
-    if(route.params?.CAT_ID){
+    if(route.params?.id){
       findByID();
     }
   },[route.params]));  
 
   const theme = useTheme();
+
+  const backAction = () => {
+      handlerClose();
+      return true;
+    };
+    
+    BackHandler.addEventListener(
+      'hardwareBackPress', 
+      backAction
+    );
   return (
     <View style={[css.container, {backgroundColor: theme.card }]}>      
       <InputCard placeholder={"Nome da lista"} value={title} onChangeText={setTitle}/>

@@ -1,4 +1,4 @@
-import { View, FlatList, Image, Dimensions, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, FlatList, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import { imageProps } from '@/database/interfacesScheme';
 const { width, height } = Dimensions.get('window');
 

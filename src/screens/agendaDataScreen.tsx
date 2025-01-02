@@ -21,7 +21,7 @@ import { useTheme } from "@/customs";
 import moment from "moment";
 
 export default function AgendaDataScreen() {
-    const navigation = useNavigation<DrawerNavigationProp<DrawerProps, 'AdicionarTarefa'>>(); 
+    const navigation = useNavigation<DrawerNavigationProp<DrawerProps>>(); 
     const [database, setDatabase ] = useState<eventosProps[] | any>([]);
     const [eventos,  setEventos  ] = useState<eventosProps[] | any>([]);
     const [data, setData ] = useState<string>('');
@@ -81,7 +81,7 @@ export default function AgendaDataScreen() {
                 ListEmptyComponent={() => ( 
                     <EmptyContent title={"Data sem eventos"} message={"🗺️ Que tal planejar uma viajem?"}/>
                 )}/>
-                <ButtonPlus icon='add' onPress={()=> navigation.navigate('AdicionarTarefa', {ID: undefined, CAT_ID: undefined})}/>
+                <ButtonPlus icon='add' onPress={()=> navigation.navigate('AdicionarTarefa', {id: undefined, uuid: undefined})}/>
         </View>
     )
 }

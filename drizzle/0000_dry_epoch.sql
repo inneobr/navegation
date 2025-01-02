@@ -7,19 +7,19 @@ CREATE TABLE `categoria` (
 CREATE UNIQUE INDEX `categoria_title_unique` ON `categoria` (`title`);--> statement-breakpoint
 CREATE TABLE `cronometro` (
 	`id` integer PRIMARY KEY NOT NULL,
+	`uuid` integer NOT NULL,
 	`days` integer,
 	`hours` integer,
 	`minutes` integer,
 	`seconds` integer,
-	`description` text,
-	`tarefa_id` integer
+	`description` text
 );
 --> statement-breakpoint
-CREATE TABLE `link` (
+CREATE TABLE `externos` (
 	`id` integer PRIMARY KEY NOT NULL,
+	`uuid` integer NOT NULL,
 	`url` text NOT NULL,
-	`title` text NOT NULL,
-	`uuid` integer NOT NULL
+	`title` text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `image` (
@@ -31,11 +31,16 @@ CREATE TABLE `image` (
 --> statement-breakpoint
 CREATE TABLE `tarefa` (
 	`id` integer PRIMARY KEY NOT NULL,
+	`uuid` integer,
 	`title` text NOT NULL,
 	`description` text,
-	`prioridade` text,
 	`data` text,
-	`hora` text,
-	`categoria_id` integer,
-	FOREIGN KEY (`categoria_id`) REFERENCES `categoria`(`id`) ON UPDATE no action ON DELETE cascade
+	`hora` text
+);
+--> statement-breakpoint
+CREATE TABLE `todolist` (
+	`id` integer PRIMARY KEY NOT NULL,
+	`uuid` integer NOT NULL,
+	`active` text,
+	`description` text NOT NULL
 );

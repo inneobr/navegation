@@ -1,23 +1,15 @@
 export type DrawerProps = { 
     HojeScreen: undefined,
-    SettingsOpen: undefined,
-
-    AgendaCategoria: {
-        CAT_ID: number
-    }
-
-    CategoriaScreen:{ 
-        CAT_ID: number 
-    };
+    CategoriaListScreen: undefined,
+    AgendaCategoria:  { uuid:  number | undefined};
+    CronometroScreen: { uuid:  number | undefined};
+    TarefaViewScreen: { id:    number | undefined};
+    CategoriaScreen:  { id:    number | undefined};  
+    GalleryScreen:    { uuid?: number | undefined};
+    ExternosScreen:   { uuid?: number | undefined} ;
     
     AdicionarTarefa: { 
-        ID: number | any, 
-        CAT_ID: number | any 
+        id?:  number | undefined, 
+        uuid: number | undefined 
     };
-
-    CronometroScreen: { ID: number}
-
-    TarefaViewScreen: { ID: number }
-    GalleryScreen:  { uuid?: number | undefined}
-    ExternosScreen: { uuid?: number | undefined}
 };

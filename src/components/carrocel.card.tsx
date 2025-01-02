@@ -14,9 +14,9 @@ import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import { useTheme } from "@/customs";
 
-type Props = { uuid: number }
+type Props = { uuid: number | undefined }
 const Carrocel = ({uuid}: Props ) => {
-    const navigation = useNavigation<DrawerNavigationProp<DrawerProps, 'GalleryScreen'>>(); 
+    const navigation = useNavigation<DrawerNavigationProp<DrawerProps>>(); 
     const [database, setDatabase] = useState<imageProps[] | any>([]);
     const theme = useTheme();
 

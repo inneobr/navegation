@@ -15,7 +15,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
 
 type routeParams = RouteProp<DrawerProps, 'AdicionarTarefa'>;
-type drawerProps =  DrawerNavigationProp<DrawerProps, 'AdicionarTarefa'>;
+type drawerProps =  DrawerNavigationProp<DrawerProps>;
 export default function AgendaCategoriaScreen() { 
   const [database, setDatabase ] = useState<eventosProps[] | any>([]);
   const [reflash,  setReflash  ] = useState(false);
@@ -28,10 +28,11 @@ export default function AgendaCategoriaScreen() {
 
   async function findByCategoria() { 
     try {
+      let tarefa_id = Number(route.params.uuid);
         const response = await connect.query.tarefa.findMany({
-          where: ((categoria_id, { eq }) => eq(tabelaScheme.tarefa.categoria_id, Number(route.params.CAT_ID)))
+          where: ((categoria_id, { eq }) => eq(tabelaScheme.tarefa.uuid, tarefa_id))
         });           
-        setDatabase(response);
+      setDatabase(response);
     } catch (error) {
         console.log(error)
     }
@@ -44,11 +45,11 @@ export default function AgendaCategoriaScreen() {
   }
 
   function handlerNovo(){
-    navigation.navigate('AdicionarTarefa', {ID: null, CAT_ID: route.params.CAT_ID});       
+    navigation.navigate('AdicionarTarefa', {id: undefined, uuid: route.params.uuid});       
   }
         
   useFocusEffect(useCallback(() => {
-    if(route.params?.CAT_ID){      
+    if(route.params?.uuid){      
       findByCategoria();   
     } 
   },[database]))

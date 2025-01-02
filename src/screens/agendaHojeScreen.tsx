@@ -13,22 +13,22 @@ import { drizzle } from 'drizzle-orm/expo-sqlite';
 import TarefasCard from '@/components/tarefas.card';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
-
 import moment from 'moment';
 
+
+
 export default function AgendaHojeScreenScreen() { 
-  const navigation = useNavigation<DrawerNavigationProp<DrawerProps, 'AdicionarTarefa'>>(); 
+  const navigation = useNavigation<DrawerNavigationProp<DrawerProps>>(); 
   const [database, setDatabase ] = useState<eventosProps[] | any>([]);
   const [reflash,  setReflash  ] = useState(false);
-
   const db = useSQLiteContext();
   const connect  = drizzle(db, { schema: tabelaScheme });
 
   async function findByData() { 
-    const date = moment().format('YYYY-MM-DD');
+    let toDay = moment().format('YYYY-MM-DD');
     try {
         const response = await connect.query.tarefa.findMany({
-          where: ((data, { eq }) => eq(tabelaScheme.tarefa.data, date))
+          where: ((data, { eq }) => eq(tabelaScheme.tarefa.data, toDay))
         });           
         setDatabase(response);
     } catch (error) {
@@ -43,7 +43,7 @@ export default function AgendaHojeScreenScreen() {
   }
 
   function handlerCadastrarTarefa(){
-    navigation.navigate('AdicionarTarefa', {ID: null, CAT_ID: null});    
+    navigation.navigate('AdicionarTarefa', {id: undefined, uuid: undefined});    
   }
         
   useFocusEffect(useCallback(() => {

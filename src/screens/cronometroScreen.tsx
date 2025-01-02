@@ -1,5 +1,5 @@
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import CronometroCard from "@/components/cronometro.card";
@@ -17,16 +17,14 @@ export default function CronometroScreen() {
     const [hours,     setHours    ] = useState<number>(0);
     const [minutes,   setMinutes  ] = useState<number>(0);
     const [seconds,   setSeconds  ] = useState<number>(0);
-    const [tarefa_id, setTarefa_id] = useState<number>(0);
 
-    const [id, setId ] = useState<number | undefined>(undefined);
-    const [description, setDescription ] = useState<string | undefined>('');
-    
+    const [id,   setId   ] = useState<number>(0);
+    const [description, setDescription ] = useState<string>('');
+  
     const [isRun,    setIsRun   ] = useState(false);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);    
     const route = useRoute<RouteProp<DrawerProps, 'CronometroScreen'>>();
 
-    const navigation = useNavigation();
     const usql = useSQLiteContext();
     const execute = drizzle(usql, { schema: tabelaScheme });
 
@@ -84,7 +82,6 @@ export default function CronometroScreen() {
       } catch (error) {
           console.log(error);
       }
-      resetCronometro();
   }
 
     useEffect(() => {      
@@ -96,25 +93,26 @@ export default function CronometroScreen() {
     }, []);
 
     const resetParametros = () => {      
-      setId(undefined)
+      setId(0)
       setDays(0);
       setHours(0);
       setMinutes(0);
       setSeconds(0);
     }
 
-    async function findBy() {  
+    async function findByUuid() {  
+      const tarefa_id = Number(route.params?.uuid)
       try {
           const result = await execute.query.cronometro.findFirst({
-              where: ((id, { eq }) => eq(tabelaScheme.cronometro.id,  route.params?.ID))
+              where: ((uuid, { eq }) => eq(tabelaScheme.cronometro.uuid, tarefa_id))
           });
+
           if(result !== undefined) {
-            setId(Number(result.id))        
+            setId(Number(result.id));        
             setDays(Number(result.days));
             setHours(Number(result.hours));
             setMinutes(Number(result.minutes));
             setSeconds(Number(result.seconds));
-            setTarefa_id(Number(result.tarefa_id));
           } else {
             resetParametros();
           }
@@ -125,8 +123,9 @@ export default function CronometroScreen() {
 
     async function onSave() {
       try { 
-        if(id !== undefined) return onUpdate();
-        await execute.insert(tabelaScheme.cronometro).values({ days, hours, minutes, seconds, tarefa_id }); 
+        const tarefa_id = Number(route.params?.uuid)
+        if(id !== 0) return onUpdate();
+        await execute.insert(tabelaScheme.cronometro).values({ days, hours, minutes, seconds, uuid: tarefa_id }); 
       } catch (error) {
           console.log("Erro ao salvar cronômetro:", error);
           throw error;
@@ -141,16 +140,13 @@ export default function CronometroScreen() {
         console.log("Erro ao atualizar cronômetro:", error);
         throw error;
       }
-      resetParametros();
-      navigation.goBack();
     }
     
     useFocusEffect(useCallback(() => {
-      if(route.params?.ID === undefined) return;
-          findBy();
-    },[route.params?.ID]))
-
-    const theme = useTheme();
+      if(route.params?.uuid === undefined) return;
+          findByUuid();
+    },[route.params?.uuid]))  
+    
     return(
         <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
             <CronometroCard 
@@ -162,35 +158,7 @@ export default function CronometroScreen() {
                 onStart={()=> handlerStart()} 
                 onPause={()=> handlerPause()} 
                 onReset={()=> resetCronometro()}
-            />
-            <View style={[css.container, {backgroundColor: theme.shap}]}>
-              <TextInput value={description} onChangeText={setDescription} 
-                placeholder="Anotações gerais" 
-                placeholderTextColor={theme.font}
-                style={[css.description, {color: theme.font}]} 
-                multiline/>
-
-              <TouchableOpacity onPress={()=>  onSave()}>
-                  <MaterialIcons name="send" color={theme.font} size={22} />
-              </TouchableOpacity>
-            </View>
-            
+            />            
         </View>
     )
 }
-
-const css = StyleSheet.create({
-  container: {
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    flexDirection: "row",
-    padding: 14,
-    bottom: 0,
-  },
-
-  description:{
-    flex: 1
-  }
-})

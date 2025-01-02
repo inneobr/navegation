@@ -1,9 +1,11 @@
 import { CircularProgressBase } from "react-native-circular-progress-indicator";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { CardVertical, Subtitle, Title } from "@/theme/component";
+
 import ButtonIconCard from "./buttonIcon.card";
+import { useTheme } from "@/customs";
 import { useFonts } from 'expo-font';
 import {  useEffect } from "react";
-import { useTheme } from "@/customs";
 
 type circularProps = {
     days:     number;
@@ -30,18 +32,19 @@ const CronometroCard = ({days, hours, minutes, seconds, running, onStart, onPaus
      
     const theme = useTheme();
     return (
-        <View style={css.container}>            
+        <CardVertical style={[css.container, {flex: 1}]}>
+            {days > 0 && <Title style={[css.header, {marginVertical: 12}]}>{days} <Subtitle>Dias</Subtitle></Title>}
+
             <CircularProgressBase 
                 radius={100}
                 maxValue={59}
                 value={seconds}
-                activeStrokeWidth={8}
-                inActiveStrokeWidth={10}
+                activeStrokeWidth={12}
+                inActiveStrokeWidth={6}
                 activeStrokeColor={theme.open}
-                inActiveStrokeColor={theme.shap}> 
+                inActiveStrokeColor={theme.font}> 
                 <View style={css.section}>
-                    <Text style={[css.clock, {color: theme.open}]}>{formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}</Text>
-                    <Text style={[css.clock, {fontSize: 25, marginTop: 15, color: theme.font}, days > 0 ? {display: 'flex'}: {display: 'none'}]}>{formatTime(days)} dias</Text>
+                    <Text style={[css.clock, {color: theme.open}]}>{formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}</Text>                    
                 </View>                   
                     
             </CircularProgressBase>
@@ -51,7 +54,7 @@ const CronometroCard = ({days, hours, minutes, seconds, running, onStart, onPaus
                 { running && <ButtonIconCard icon={'pause'} title="pause" onPress={onPause} />}
                 <ButtonIconCard icon={'stop'}  title="reset" onPress={onReset} />
             </View>
-        </View>
+        </CardVertical>
     )
 
 }
@@ -76,6 +79,12 @@ const css = StyleSheet.create({
         justifyContent: "space-between",
         flexDirection: "column",
         alignItems: "center",       
+    },
+
+    header: {
+        fontFamily: 'DigitalFont',
+        letterSpacing: 6,
+        fontSize: 40,
     },
 
     footer: {

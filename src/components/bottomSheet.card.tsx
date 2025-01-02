@@ -1,5 +1,5 @@
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetView, useBottomSheetSpringConfigs } from "@gorhom/bottom-sheet"
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { eventosProps } from "@/database/interfacesScheme";
 
 import * as tabelaScheme from "@/database/tabelaScheme";
@@ -7,7 +7,6 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
 
 import CalendarCard from "./calendar.card";
-import { StyleSheet } from "react-native";
 import { useTheme } from "@/customs";
 
 type Props = {
@@ -15,7 +14,7 @@ type Props = {
 }
 
 const BotonSheetCard = ({onChange, ...rest}: Props) => {
-    const [database,    setDatabase    ] = useState<eventosProps[]>([]);
+    const [database, setDatabase] = useState<eventosProps[] | any>([]);
     const snapPoints = useMemo(() => ["3%","48%"], []);
     
     const usql = useSQLiteContext();
@@ -23,8 +22,8 @@ const BotonSheetCard = ({onChange, ...rest}: Props) => {
 
     async function findAll() { 
         try {
-            const dados = await execute.query.tarefa.findMany();        
-            setDatabase(dados);
+            const result = await execute.query.tarefa.findMany();
+            if(result) setDatabase(result);
         } catch (error) {
             console.log(error)
         }
@@ -48,8 +47,12 @@ const BotonSheetCard = ({onChange, ...rest}: Props) => {
 				disappearsOnIndex={0}
 				appearsOnIndex={0}
 			/>
-		),[]
+		),[database]
 	);
+
+    useEffect(() => { 
+        findAll();
+    },[]);
 
     const theme = useTheme()
     return (
@@ -64,11 +67,3 @@ const BotonSheetCard = ({onChange, ...rest}: Props) => {
     )
 }
 export default BotonSheetCard
-
-const css = StyleSheet.create({
-    container: {
-        ...StyleSheet.absoluteFillObject,
-        borderTopLeftRadius:  20,
-        borderTopRightRadius: 20
-    }
-});

@@ -1,4 +1,4 @@
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+
 import AgendaCategoriaScreen from "@/screens/agendaCategoriaScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
@@ -8,14 +8,15 @@ import CronometroScreen from "@/screens/cronometroScreen";
 
 import { useNavigation } from "@react-navigation/native";
 import CategoriaScreen from "@/screens/categoriaScreen";
-import { TouchableOpacity, View } from "react-native";
 
 import DrawerContent from "@/components/customDrawer";
 import GalleryScreen from "@/screens/imageScreen";
 import TarefaScreen from "@/screens/tarefaScreen";
 
+import { Ionicons } from "@expo/vector-icons";
 import TabRouter from "./tab.routes";
 import { useTheme } from "@/customs";
+import CategoriaListScreen from "@/screens/categorias.screen";
 
 const Drawer = createDrawerNavigator();
 export default function DrawerRoutes(){
@@ -81,8 +82,10 @@ export default function DrawerRoutes(){
                 name="CronometroScreen" 
                 component={CronometroScreen} 
                 options={{
-                    drawerLabel: "Cronometro",
-                    drawerIcon: ({ color, size }) => <Ionicons name="time" color={color} size={size} />
+                    headerTitle:"Cronomêtro",
+                    drawerLabel: "Cronomêtro",
+                    drawerIcon: ({ color, size }) => <Ionicons name="time" color={color} size={size} />,
+                    drawerItemStyle: { display: 'none' }
                 }} 
             /> 
 
@@ -121,12 +124,12 @@ export default function DrawerRoutes(){
             /> 
 
             <Drawer.Screen 
-                name="SettingsOpen" 
-                component={TabRouter}
+                name="CategoriaListScreen" 
+                component={CategoriaListScreen}
                 options={{
-                    headerTitle:"Configurações",
-                    drawerLabel: "Settings",
-                    drawerIcon: ({ color, size }) => <Ionicons name="settings" color={color} size={size} />,
+                    headerTitle:"Listas",
+                    drawerLabel: "Listas",
+                    drawerIcon: ({ color, size }) => <Ionicons name="list" color={color} size={size} />,
                     drawerItemStyle: { display: 'none' }
                 }} 
             />  

@@ -26,7 +26,7 @@ export default function DrawerContent(props: any) {
 
     const data = { ...props, state: { ...props.state, routes: filter }};
     function handlerCategoriaList(event: number){ 
-        navigation.navigate('AgendaCategoria', { CAT_ID: event});        
+        navigation.navigate('AgendaCategoria', { uuid: event});        
     }  
     
     const db = useSQLiteContext();
@@ -91,14 +91,14 @@ export default function DrawerContent(props: any) {
             </DrawerContentScrollView>  
             
             <View style={css.footer}>                
-                <TouchableOpacity onPress={() => navigation.navigate("CategoriaScreen", {CAT_ID: 0})}>
+                <TouchableOpacity onPress={() => navigation.navigate("CategoriaScreen", {id: undefined})}>
                     <View style={css.buttom}>
                         <MaterialIcons name="add" color={theme.font} size={22}/>
                         <Text style={{color: theme.font}}>Adicionar lista</Text>  
                     </View>
                 </TouchableOpacity>   
 
-                <TouchableOpacity onPress={() => navigation.navigate("SettingsOpen")}>
+                <TouchableOpacity onPress={() => navigation.navigate("CategoriaListScreen")}>
                     <MaterialIcons name="menu" color={theme.font} size={22}/>
                 </TouchableOpacity>         
             </View>

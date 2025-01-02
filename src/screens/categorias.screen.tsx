@@ -1,10 +1,10 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-
 import { categoriaProps } from "@/database/interfacesScheme";
+
 import CategoriasCard from "@/components/categorias.card";
 import { EmptyContent } from "@/components/emptyContent";
+import { FlatList, StyleSheet, View } from "react-native";
 
 import * as tabelaScheme from "@/database/tabelaScheme";
 import ButtonPlus from "@/components/buttonplus.card";
@@ -17,12 +17,12 @@ import { useCallback, useState } from "react";
 
 export default function CategoriaListScreen(){
     const [categorias, setCategorias] = useState<categoriaProps[]>([]);
-    const navigation = useNavigation<DrawerNavigationProp<DrawerProps, 'CategoriaScreen'>>();
+    const navigation = useNavigation<DrawerNavigationProp<DrawerProps>>();
 
     const db = useSQLiteContext();
     const connect = drizzle(db, { schema: tabelaScheme });     
 
-    async function fetchData() { 
+    async function findAll() { 
         try {   
             const response = await connect.query.categoria.findMany();            
             setCategorias(response);
@@ -32,8 +32,8 @@ export default function CategoriaListScreen(){
     } 
 
     useFocusEffect(useCallback(() => {
-        fetchData();    
-      },[categorias]))
+        findAll();    
+    },[categorias]))
 
     return (
         <View style={css.container}>
@@ -50,7 +50,7 @@ export default function CategoriaListScreen(){
                     <EmptyContent title={"Ainda não temos listas."} message={"Cadastre listas e organize suas tarefas."}/>
                 )}
             />
-            <ButtonPlus icon='add' onPress={()=> navigation.navigate("CategoriaScreen", { CAT_ID: 0})}/>
+            <ButtonPlus icon='add' onPress={()=> navigation.navigate("CategoriaScreen", { id: undefined })}/>
         </View>    
     );
 }
