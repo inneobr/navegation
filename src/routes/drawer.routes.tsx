@@ -1,22 +1,21 @@
-
 import AgendaCategoriaScreen from "@/screens/agendaCategoriaScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import AgendaHojeScreenScreen from "@/screens/agendaHojeScreen";
+import CategoriaListScreen from "@/screens/categorias.screen";
+import AgendaDataScreen from "@/screens/agendaDataScreen";
+
 import TarefaViewScreen from "@/screens/tarefaViewScreen";
 import CronometroScreen from "@/screens/cronometroScreen";
-
 import { useNavigation } from "@react-navigation/native";
-import CategoriaScreen from "@/screens/categoriaScreen";
 
+import CategoriaScreen from "@/screens/categoriaScreen";
 import DrawerContent from "@/components/customDrawer";
 import GalleryScreen from "@/screens/imageScreen";
-import TarefaScreen from "@/screens/tarefaScreen";
 
+import TarefaScreen from "@/screens/tarefaScreen";
 import { Ionicons } from "@expo/vector-icons";
-import TabRouter from "./tab.routes";
 import { useTheme } from "@/customs";
-import CategoriaListScreen from "@/screens/categorias.screen";
 
 const Drawer = createDrawerNavigator();
 export default function DrawerRoutes(){
@@ -64,6 +63,16 @@ export default function DrawerRoutes(){
                     drawerIcon: ({ color, size }) => <Ionicons name="add" color={color} size={size} />,
                     drawerItemStyle: { display: 'none' }
                 }} 
+            /> 
+
+            <Drawer.Screen 
+                name="AgendaDataScreen" 
+                component={AgendaDataScreen} 
+                options={{                    
+                    headerTitle:"Calendário",
+                    drawerLabel: "Calendário",
+                    drawerIcon: ({ color, size }) => <Ionicons name="calendar" color={color} size={size} />                    
+                }}                 
             /> 
 
             <Drawer.Screen 

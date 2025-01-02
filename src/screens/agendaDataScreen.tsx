@@ -59,6 +59,7 @@ export default function AgendaDataScreen() {
     const containerAnimeted = useAnimatedStyle(() => {
         return {  
             backgroundColor: eventos.length === 0 ? theme.card : "transparent",
+            marginHorizontal: 14,
             borderRadius: 8,
         };
     });
@@ -96,7 +97,7 @@ const css = StyleSheet.create({
 
     section: {
         flexDirection: "column",
-        justifyContent: "center", 
+        justifyContent: "center",
         borderRadius: 8,
         gap: 8
     }

@@ -27,7 +27,7 @@ const CategoriasCard = ({ id, title, color }: Props) => {
     const navigation = useNavigation<DrawerNavigationProp<DrawerProps>>();
    
     const db = useSQLiteContext();
-    const connect  = drizzle(db, { schema: tabelaScheme });  
+    const execute  = drizzle(db, { schema: tabelaScheme });  
     
     const handlerDelete = (item: number) => { 
         Alert.alert('', 'Deseja apagar?', [
@@ -36,10 +36,18 @@ const CategoriasCard = ({ id, title, color }: Props) => {
         ]);
     }
 
-    async function onDelete(item: number){        
+    async function onDelete(item: number){ 
         try {
-            await connect.delete(tabelaScheme.categoria)
-            .where(eq(tabelaScheme.categoria.id, item));
+            const tarefas = await execute.query.tarefa.findMany({ where: ((id, { eq }) => eq(tabelaScheme.tarefa.uuid, Number(item)))});
+            for (let tarefa of tarefas) {
+                let uuid = Number(tarefa.id);
+                await execute.delete(tabelaScheme.image).where(eq(tabelaScheme.image.uuid, uuid));            
+                await execute.delete(tabelaScheme.todolist).where(eq(tabelaScheme.todolist.uuid, uuid));
+                await execute.delete(tabelaScheme.externos).where(eq(tabelaScheme.externos.uuid, uuid));
+                await execute.delete(tabelaScheme.cronometro).where(eq(tabelaScheme.cronometro.uuid, uuid));                
+                await execute.delete(tabelaScheme.tarefa).where(eq(tabelaScheme.tarefa.id, uuid));
+            }        
+            await execute.delete(tabelaScheme.categoria).where(eq(tabelaScheme.categoria.id, item));
         } catch (error) {
             console.log(error);
         }

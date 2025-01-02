@@ -45,6 +45,7 @@ export default function TarefaViewScreen() {
             { text: "Confirmar", onPress: () => onDelete() },
         ]);
     }
+
     const usql = useSQLiteContext();
     const execute = drizzle(usql, { schema: tabelaScheme });
 
@@ -72,13 +73,16 @@ export default function TarefaViewScreen() {
     const handlerCronometro = () => {
         let terefa_id = Number(route.params?.id)
         navigation.navigate("CronometroScreen", {uuid: terefa_id})
-    }
+    }  
 
     async function onDelete(){    
-        let terefa_id = Number(route.params?.id)    
+        let terefa_id = Number(route.params?.id)
         try {
-            await execute.delete(tabelaScheme.tarefa)
-            .where(eq(tabelaScheme.tarefa.id, terefa_id));
+            await execute.delete(tabelaScheme.image).where(eq(tabelaScheme.image.uuid, terefa_id));            
+            await execute.delete(tabelaScheme.todolist).where(eq(tabelaScheme.todolist.uuid, terefa_id));
+            await execute.delete(tabelaScheme.externos).where(eq(tabelaScheme.externos.uuid, terefa_id));
+            await execute.delete(tabelaScheme.cronometro).where(eq(tabelaScheme.cronometro.uuid, terefa_id));
+            await execute.delete(tabelaScheme.tarefa).where(eq(tabelaScheme.tarefa.id, terefa_id));
         } catch (error) {
             console.log(error);
         }
@@ -112,58 +116,54 @@ export default function TarefaViewScreen() {
     }
     
     return (        
-            <View style={css.container}> 
-                <CardVertical style={{flex: 1}}>
-                    <CardHorizontal style={{justifyContent: "space-between", paddingHorizontal: 2, gap: 8}}>
-                        <Title style={{flex: 1, fontSize: 22}}>{title}</Title> 
-                        <TouchableOpacity onPress={()=> handlerDelete()}>
-                            <MaterialIcons name="delete" color={theme.tint} size={22} />
-                        </TouchableOpacity>
+        <View style={css.container}> 
+            <CardVertical style={{flex: 1}}>
+                <CardHorizontal style={{justifyContent: "space-between", paddingHorizontal: 2, gap: 8}}>
+                    <Title style={{flex: 1, fontSize: 22}}>{title}</Title> 
+                    <TouchableOpacity onPress={()=> handlerDelete()}>
+                        <MaterialIcons name="delete" color={theme.tint} size={22} />
+                    </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => handlerEditar()}>
-                            <MaterialIcons name="edit" color={theme.tint} size={22} />
-                        </TouchableOpacity>
-                    </CardHorizontal>
-                    <Separator />
+                    <TouchableOpacity onPress={() => handlerEditar()}>
+                        <MaterialIcons name="edit" color={theme.tint} size={22} />
+                    </TouchableOpacity>
+                </CardHorizontal>
+                <Separator />
 
-                    <ScrollView style={{flex: 1, marginBottom: 20}}>
-                        { description && <Subtitle style={{color: theme.tint, textAlign: "justify", fontSize: 16}}>{description}</Subtitle> } 
-                    </ScrollView>
-                    <View style={css.information}>                      
-                        <TouchableOpacity onPress={()=>   onGalery()}>
-                            <MaterialIcons name="image" size={20} color={theme.tint}/>
-                        </TouchableOpacity> 
+                <ScrollView style={{flex: 1, marginBottom: 20}}>
+                    { description && <Subtitle style={{color: theme.tint, textAlign: "justify", fontSize: 16}}>{description}</Subtitle> } 
+                </ScrollView>
+                <View style={css.information}>                      
+                    <TouchableOpacity onPress={()=>   onGalery()}>
+                        <MaterialIcons name="image" size={20} color={theme.tint}/>
+                    </TouchableOpacity> 
 
-                        <TouchableOpacity onPress={()=>  handlerCronometro()}>
-                            <MaterialIcons name="timer" size={20} color={theme.tint}/>
-                        </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>  handlerCronometro()}>
+                        <MaterialIcons name="timer" size={20} color={theme.tint}/>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity onPress={()=>    onList()}>
-                            <MaterialIcons name="list"  size={20} color={theme.tint} />
-                        </TouchableOpacity>      
+                    <TouchableOpacity onPress={()=>    onList()}>
+                        <MaterialIcons name="list"  size={20} color={theme.tint} />
+                    </TouchableOpacity>      
 
-                        <TouchableOpacity onPress={()=> onExterno()}>
-                            <MaterialIcons name="link"  size={20} color={theme.tint} />
-                        </TouchableOpacity>
-                        
-                        { hora && <Subtitle style={{color: theme.tint}}>Hora: {hora}</Subtitle> }
-                        { data &&<Subtitle style={{color: theme.tint}}>Públicado: {moment(data).format('DD-MM-YYYY')}</Subtitle> }
-                    </View> 
-                </CardVertical>
-                
-                { galery && 
-                <Carrocel uuid={route.params?.id}/>}
+                    <TouchableOpacity onPress={()=> onExterno()}>
+                        <MaterialIcons name="link"  size={20} color={theme.tint} />
+                    </TouchableOpacity>
+                    
+                    { hora && <Subtitle style={{color: theme.tint}}>Hora: {hora}</Subtitle> }
+                    { data &&<Subtitle style={{color: theme.tint}}>Públicado: {moment(data).format('DD-MM-YYYY')}</Subtitle> }
+                </View> 
+            </CardVertical>
+            
+            { galery && 
+            <Carrocel uuid={route.params?.id}/>}
 
-                { lista &&
-                <TodoList uuid={route.params?.id}/>}
+            { lista &&
+            <TodoList uuid={route.params?.id}/>}
 
-                { externos &&
-                <Externos uuid={route.params?.id}/>}
-
-                
-
-                
-            </View>
+            { externos &&
+            <Externos uuid={route.params?.id}/>}
+        </View>
     )
 }
 
