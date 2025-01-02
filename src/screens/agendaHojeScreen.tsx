@@ -59,7 +59,7 @@ export default function AgendaHojeScreenScreen() {
         contentContainerStyle={database.length === 0 ? css.emptySection : css.section}               
         keyExtractor={(item) => String(item.id)}     
         renderItem={({item}) => (                                               
-          <TarefasCard id={item.id} title={item.title} description={item.description} categoria_id={item.categoria_id}/>
+          <TarefasCard id={item.id} title={item.title} description={item.description} uuid={item.uuid}/>
         )}
         ListEmptyComponent={() => ( 
             <EmptyContent title={"Agenda vazia"} message={"☀️ Aproveite seu dia"}/>

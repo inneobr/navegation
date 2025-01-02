@@ -76,7 +76,7 @@ export default function AgendaDataScreen() {
                 contentContainerStyle={[css.section, eventos.length === 0 && {flex: 1}]}               
                 keyExtractor={(item) => String(item.id)}     
                 renderItem={({item}) => (                                               
-                    <TarefasCard id={item.id} title={item.title} description={item.description} categoria_id={item.categoria}/>
+                    <TarefasCard id={item.id} title={item.title} description={item.description} uuid={item.uuid}/>
                 )}
                 ListEmptyComponent={() => ( 
                     <EmptyContent title={"Data sem eventos"} message={"🗺️ Que tal planejar uma viajem?"}/>

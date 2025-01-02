@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "9a4d01bf-709d-4a5e-8ddd-a9f336d81fe1",
+  "id": "082b98e0-092e-4984-8889-a79b3ca4d36e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "categoria": {
@@ -188,13 +188,6 @@
           "notNull": true,
           "autoincrement": false
         },
-        "uuid": {
-          "name": "uuid",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "title": {
           "name": "title",
           "type": "text",
@@ -222,10 +215,31 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "uuid": {
+          "name": "uuid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "tarefa_uuid_categoria_id_fk": {
+          "name": "tarefa_uuid_categoria_id_fk",
+          "tableFrom": "tarefa",
+          "tableTo": "categoria",
+          "columnsFrom": [
+            "uuid"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
@@ -249,10 +263,11 @@
         },
         "active": {
           "name": "active",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": 0
         },
         "description": {
           "name": "description",

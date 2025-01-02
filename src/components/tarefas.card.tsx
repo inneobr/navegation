@@ -18,13 +18,12 @@ type Props = {
     id:          number
     title:       string,
     description: string,
-    categoria_id: number | any
+    uuid?: number | any
 }
 
 type drawerProps =  DrawerNavigationProp<DrawerProps, 'AdicionarTarefa'>;
-const width = Dimensions.get('window').width;
 
-const TarefasCard = ({ id, title, description, categoria_id }: Props) => { 
+const TarefasCard = ({ id, title, uuid }: Props) => { 
     const [categoria,  setCategoria]  = useState<categoriaProps>();  
     const navigation = useNavigation<drawerProps>();
 
@@ -38,7 +37,7 @@ const TarefasCard = ({ id, title, description, categoria_id }: Props) => {
     async function getCategoria() { 
         try {
             const response = await execute.query.categoria.findFirst({
-                where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(categoria_id)))
+                where: ((id, { eq }) => eq(tabelaScheme.categoria.id, Number(uuid)))
             });           
             setCategoria(response);
         } catch (error) {
@@ -48,15 +47,15 @@ const TarefasCard = ({ id, title, description, categoria_id }: Props) => {
             
     useEffect(() => {
         getCategoria()
-    }, [categoria_id])
+    }, [uuid])
 
     const theme = useTheme()
     return (
         <TouchableOpacity onPress={()=> handlerTarefa()}>        
             <Animated.View style={[css.container, {backgroundColor: theme.card, paddingHorizontal: 12 }]}> 
-                <Animated.View style={{justifyContent: "space-between", flexDirection: "row"}}>
-                    <Text style={[css.title, {color: theme.font, elevation: 8}]}>{title}</Text>
-                    <Animated.View style={[css.categoria, {backgroundColor: categoria?.color}]}/>     
+                <Animated.View style={{flexDirection: "row", alignItems: "center", gap: 8}}>
+                    <Animated.View style={[css.categoria, {backgroundColor: categoria?.color}]}/>    
+                    <Text style={[css.title, {color: theme.font, elevation: 8}]}>{title}</Text> 
                 </Animated.View> 
             </Animated.View> 
         </TouchableOpacity>   
@@ -74,17 +73,14 @@ const css = StyleSheet.create({
     },
 
     title: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: '500'
-    },
-
-    descrition: {
-        fontSize: 12
     },
 
     categoria: {
         borderRadius: 5,
-        width:  8,
-        height: 8 
+        opacity: 0.6,
+        height: 14,
+        width:  7,
     }
 })

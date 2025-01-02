@@ -31,16 +31,17 @@ CREATE TABLE `image` (
 --> statement-breakpoint
 CREATE TABLE `tarefa` (
 	`id` integer PRIMARY KEY NOT NULL,
-	`uuid` integer,
 	`title` text NOT NULL,
 	`description` text,
 	`data` text,
-	`hora` text
+	`hora` text,
+	`uuid` integer,
+	FOREIGN KEY (`uuid`) REFERENCES `categoria`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `todolist` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`uuid` integer NOT NULL,
-	`active` text,
+	`active` integer DEFAULT 0,
 	`description` text NOT NULL
 );

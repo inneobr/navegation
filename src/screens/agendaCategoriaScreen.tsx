@@ -28,9 +28,9 @@ export default function AgendaCategoriaScreen() {
 
   async function findByCategoria() { 
     try {
-      let tarefa_id = Number(route.params.uuid);
+      let p_uuid = Number(route.params.uuid);
         const response = await connect.query.tarefa.findMany({
-          where: ((categoria_id, { eq }) => eq(tabelaScheme.tarefa.uuid, tarefa_id))
+          where: ((uuid, { eq }) => eq(tabelaScheme.tarefa.uuid, p_uuid))
         });           
       setDatabase(response);
     } catch (error) {
@@ -63,7 +63,7 @@ export default function AgendaCategoriaScreen() {
         contentContainerStyle={database.length === 0 ? css.emptySection : css.section}               
         keyExtractor={(item) => String(item.id)}     
         renderItem={({item}) => (                                               
-          <TarefasCard id={item.id} title={item.title} description={item.description} categoria_id={item.categoria_id}/>
+          <TarefasCard id={item.id} title={item.title} description={item.description} uuid={item.uuid}/>
         )}
         ListEmptyComponent={() => ( 
           <EmptyContent title={"Lista vazia"} message={"🐕‍🦺 Leve seus pets para passear."}/>

@@ -4,14 +4,14 @@ export function useTheme() {
     let colorScheme = useColorScheme();
     let color = colorScheme === 'dark'? true : false;
     return  {
-        base:  color ? 'rgb(24, 24, 27)' : 'rgb( 35, 180, 201)',
-        body:  color ? 'rgb(0,  0,  0 )' : 'rgb(160, 160, 160)',
-        card:  color ? 'rgb(39, 39, 42)' : 'rgb( 67, 199, 215)',
-        shap:  color ? 'rgb(18, 18, 18)' : 'rgb(153, 203, 209)',
+        base:  color ? 'rgb(24, 24, 27)' : 'rgb(232, 239, 247)',
+        body:  color ? 'rgb(0,  0,  0 )' : 'rgb(246, 249, 254)',
+        card:  color ? 'rgb(39, 39, 42)' : 'rgb(210, 229, 244)',
+        shap:  color ? 'rgb(18, 18, 18)' : 'rgb(226, 233, 241)',
 
-        font:  color ? 'rgb(255, 255, 255)' : 'rgb(  0,  0,    0)',
-        tint:  color ? 'rgb(160, 160, 160)' : 'rgb( 39,  39,  42)',
-        open:  color ? 'rgb(254, 85,  59 )' : 'rgb(255, 255, 255)',
+        font:  color ? 'rgb(255, 255, 255)' : 'rgb(  8,  28,  43)',
+        tint:  color ? 'rgb(160, 160, 160)' : 'rgb(174, 178, 183)',
+        open:  color ? 'rgb(254, 85,  59 )' : 'rgb(254, 85,  59 )',
         dark:  color
     }
 }

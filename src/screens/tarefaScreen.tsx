@@ -15,7 +15,6 @@ import { Alert, BackHandler } from "react-native";
 import { eq } from "drizzle-orm";
 
 import moment from "moment";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
 export default function TarefaScreen() {   
   const [title,       setTitle       ] = useState<string>('');
   const [description, setDescription ] = useState<string | any>('');

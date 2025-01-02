@@ -14,11 +14,13 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
 
 import { useCallback, useState } from "react";
+import { useTheme } from "@/customs";
 
 export default function CategoriaListScreen(){
     const [categorias, setCategorias] = useState<categoriaProps[]>([]);
     const navigation = useNavigation<DrawerNavigationProp<DrawerProps>>();
 
+    const theme = useTheme()
     const db = useSQLiteContext();
     const connect = drizzle(db, { schema: tabelaScheme });     
 
@@ -44,7 +46,7 @@ export default function CategoriaListScreen(){
                 contentContainerStyle={categorias.length === 0 ? css.emptySection : css.section}               
                 keyExtractor={(item) => String(item.id)}     
                 renderItem={({item}) => (                                               
-                <CategoriasCard id={item.id} title={item.title} color={item.color}/>
+                <CategoriasCard id={item.id} title={item.title} color={theme.font}/>
                 )}
                 ListEmptyComponent={() => ( 
                     <EmptyContent title={"Ainda não temos listas."} message={"Cadastre listas e organize suas tarefas."}/>
