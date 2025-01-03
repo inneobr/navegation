@@ -91,6 +91,7 @@ const css = StyleSheet.create({
     container: {
         justifyContent: "space-between",
         flexDirection: "column",
+        marginBottom:14,
         gap:  8,
         flex: 1
     },

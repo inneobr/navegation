@@ -79,10 +79,10 @@ const TodoList = ({uuid}: Props) => {
     return (
         <CardVertical style={{height: "50%", maxHeight: "50%"}}>
             <CardHorizontal style={{marginBottom: 8}}>
-                <Input placeholder="Item da lista" value={description} onChangeText={setDescription} numberOfLines={1}/>
+                <Input style={{color: theme.font}} placeholder="Item da lista" value={description} onChangeText={setDescription} numberOfLines={1} />
 
                 <TouchableOpacity onPress={()=> onSave()}>
-                    <MaterialIcons name={'add'} size={18} color={theme.tint} style={[css.button, {backgroundColor: theme.shap}]} />
+                    <MaterialIcons name={'add'} size={18} color={theme.font} style={[css.button, {backgroundColor: theme.shap}]} />
                 </TouchableOpacity>               
             </CardHorizontal> 
 
@@ -95,10 +95,10 @@ const TodoList = ({uuid}: Props) => {
                     <View style={{marginVertical: 8}}>                    
                         <View style={{justifyContent: "space-between", flexDirection: "row", gap: 16}}> 
                             <Checkbox value={item.active == 1 ? true : false} key={index} onValueChange={()=> handlerActive(item.id)}/> 
-                            <Animated.Text style={[{flex: 1, fontSize: 16, color: theme.tint}]}>{item.description}</Animated.Text>
+                            <Animated.Text style={[{flex: 1, fontSize: 16, color: theme.font}]}>{item.description}</Animated.Text>
 
                             <TouchableOpacity onPress={()=> onDelete(item.id)}>
-                                <MaterialIcons name='delete' size={20} color={theme.tint}/>                                
+                                <MaterialIcons name='delete' size={20} color={theme.font}/>                                
                             </TouchableOpacity>
                         </View>
                         <Separator />

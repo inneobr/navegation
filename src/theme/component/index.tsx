@@ -47,7 +47,7 @@ export function Text(props: TextProps) {
 export function Input(props: TextInputProps ) {
     const theme = useTheme();  
     const { style, ...otherProps } = props;   
-    return <TextInput placeholderTextColor={theme.tint} style={[{color: theme.tint, backgroundColor: theme.shap}, css.input, style]} {...otherProps} />
+    return <TextInput placeholderTextColor={theme.font} style={[{color: theme.tint, backgroundColor: theme.shap}, css.input, style]} {...otherProps} />
 }
 
 export function Separator(props: ViewProps) {

@@ -9,7 +9,7 @@ export function useTheme() {
         card:  color ? 'rgb(39, 39, 42)' : 'rgb(210, 229, 244)',
         shap:  color ? 'rgb(18, 18, 18)' : 'rgb(226, 233, 241)',
 
-        font:  color ? 'rgb(255, 255, 255)' : 'rgb(  0,   0, 139)',
+        font:  color ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 59)',
         tint:  color ? 'rgb(160, 160, 160)' : 'rgb(174, 178, 183)',
         open:  color ? 'rgb(254, 85,  59 )' : 'rgb(254, 85,  59 )',
         dark:  color

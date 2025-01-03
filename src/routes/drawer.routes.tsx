@@ -1,25 +1,23 @@
 import AgendaCategoriaScreen from "@/screens/agendaCategoriaScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-
 import AgendaHojeScreenScreen from "@/screens/agendaHojeScreen";
+
 import CategoriaListScreen from "@/screens/categorias.screen";
 import AgendaDataScreen from "@/screens/agendaDataScreen";
-
 import TarefaViewScreen from "@/screens/tarefaViewScreen";
-import CronometroScreen from "@/screens/cronometroScreen";
-import { useNavigation } from "@react-navigation/native";
 
+import CronometroScreen from "@/screens/cronometroScreen";
 import CategoriaScreen from "@/screens/categoriaScreen";
 import DrawerContent from "@/components/customDrawer";
-import GalleryScreen from "@/screens/imageScreen";
 
+import GalleryScreen from "@/screens/imageScreen";
 import TarefaScreen from "@/screens/tarefaScreen";
 import { Ionicons } from "@expo/vector-icons";
+
 import { useTheme } from "@/customs";
 
 const Drawer = createDrawerNavigator();
 export default function DrawerRoutes(){
-    const navigation = useNavigation();
     const theme = useTheme();
     return (
         <Drawer.Navigator  drawerContent={DrawerContent} screenOptions={{ 

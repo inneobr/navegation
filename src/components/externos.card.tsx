@@ -69,7 +69,7 @@ const Externos = ({uuid}: Props) => {
             <CardHorizontal style={{marginBottom: 8}}>
                 <Input placeholder="Lista de links" value={url} onChangeText={setUrl} numberOfLines={1}/>
                 <TouchableOpacity onPress={()=> onSave()}>
-                    <MaterialIcons name={'add'} size={18} color={theme.tint} style={[css.button, {backgroundColor: theme.shap}]} />
+                    <MaterialIcons name={'add'} size={18} color={theme.font} style={[css.button, {backgroundColor: theme.shap}]} />
                 </TouchableOpacity>               
             </CardHorizontal> 
 
@@ -81,14 +81,14 @@ const Externos = ({uuid}: Props) => {
                 renderItem={({item}) => (    
                     <View style={{marginVertical: 8}}>                    
                         <View style={{justifyContent: "space-between", flexDirection: "row", gap: 16}}>
-                            <Subtitle style={{flex: 1, fontSize: 15}}>{item.title}</Subtitle>
+                            <Subtitle style={{flex: 1, fontSize: 15, color: theme.font}}>{item.title}</Subtitle>
 
                             <TouchableOpacity onPress={()=> onDelete(item.id)}>
-                                <MaterialIcons name='delete' size={15} color={theme.tint}/>                                
+                                <MaterialIcons name='delete' size={15} color={theme.font}/>                                
                             </TouchableOpacity>
 
                             <TouchableOpacity onPress={()=> Linking.openURL(item.url)}>
-                                <MaterialIcons name='language' size={15} color={theme.tint}/>
+                                <MaterialIcons name='language' size={15} color={theme.font}/>
                             </TouchableOpacity>
                         </View>
                         <Separator />
