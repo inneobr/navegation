@@ -1,24 +1,20 @@
 
 import { CardHorizontal, CardVertical, Input, Separator } from "@/theme/component";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import {todolistProps } from "@/database/interfacesScheme";
 import * as tabelaScheme from "@/database/tabelaScheme";
-
 import React, { useEffect, useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
 
+import { MaterialIcons } from "@expo/vector-icons";
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useSQLiteContext } from 'expo-sqlite';
-import Checkbox from 'expo-checkbox';
-import { useTheme } from "@/customs";
 
+import { useTheme } from "@/customs";
 import { eq } from "drizzle-orm";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 type Props = { uuid: number | undefined }
 const TodoList = ({uuid}: Props) => {  
-    const [active,      setActive     ] = useState(false);
     const [description, setDescription] = useState<string | any>('');  
     const [database,    setDatabase   ] = useState<todolistProps[] | any>([])
 
@@ -29,20 +25,11 @@ const TodoList = ({uuid}: Props) => {
     async function onSave() {
         try { 
             let tafefa_id = Number(uuid);          
-            await execute.insert(tabelaScheme.todolist).values({ uuid: tafefa_id, active: active ? 1 : 0, description }); 
+            await execute.insert(tabelaScheme.todolist).values({ uuid: tafefa_id, active: null, description }); 
         } catch (error) {
           console.log(error);
         } 
         setDescription('')
-    }
-
-    async function onUpdate(event: number) {
-        try {  
-            await execute.update(tabelaScheme.todolist).set({active: active ? 1 : 0})
-              .where(eq(tabelaScheme.todolist.id, event));                    
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     async function onDelete(event: number){        
@@ -64,11 +51,6 @@ const TodoList = ({uuid}: Props) => {
         } catch (error) {
             console.log(error)
         }
-    }
-
-    function handlerActive(id: number){
-        setActive((active) => !active); 
-        onUpdate(id);
     }
 
     useEffect(()=> {    
@@ -94,7 +76,7 @@ const TodoList = ({uuid}: Props) => {
                 renderItem={({item, index}) => (    
                     <View style={{marginVertical: 8}}>                    
                         <View style={{justifyContent: "space-between", flexDirection: "row", gap: 16}}> 
-                            <Animated.Text style={[{flex: 1, fontSize: 16, color: theme.font}]}>{item.description}</Animated.Text>
+                            <Text style={[{flex: 1, fontSize: 16, color: theme.font}]}>{item.description}</Text>
 
                             <TouchableOpacity onPress={()=> onDelete(item.id)}>
                                 <MaterialIcons name='delete' size={20} color={theme.font}/>                                
