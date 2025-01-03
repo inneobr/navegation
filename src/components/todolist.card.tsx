@@ -94,7 +94,6 @@ const TodoList = ({uuid}: Props) => {
                 renderItem={({item, index}) => (    
                     <View style={{marginVertical: 8}}>                    
                         <View style={{justifyContent: "space-between", flexDirection: "row", gap: 16}}> 
-                            <Checkbox value={item.active == 1 ? true : false} key={index} onValueChange={()=> handlerActive(item.id)}/> 
                             <Animated.Text style={[{flex: 1, fontSize: 16, color: theme.font}]}>{item.description}</Animated.Text>
 
                             <TouchableOpacity onPress={()=> onDelete(item.id)}>
