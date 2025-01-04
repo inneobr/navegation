@@ -71,7 +71,7 @@ const css = StyleSheet.create({
         flexDirection: "column",
         fontFamily: 'DigitalFont',
         letterSpacing: 6,
-        fontSize: 40,
+        fontSize: 30,
         gap: 4
     },
 
